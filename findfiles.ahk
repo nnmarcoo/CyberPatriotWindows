@@ -1,8 +1,7 @@
 #SingleInstance Force
 if not A_IsAdmin
 	Run *RunAs "%A_ScriptFullPath%"
-FileDelete, %A_Desktop%\ScannedFiles
-Sleep, 1000
+FileRemoveDir, %A_Desktop%\ScannedFiles, 1
 FileCreateDir, %A_Desktop%\ScannedFiles
 audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
 videos := "wma,mp4,avi,mpeg4"
