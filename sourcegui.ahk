@@ -4,11 +4,10 @@
 // CREATE DATE  : 10/2/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
-// VERSION      : 0.1
+// VERSION      : 0.1.1
 // ===============================
 // TODO:
-// Add remove all button to user tab
-// Add reg edit to sys tab
+// Continue reg edit to sys tab
 // Add system integrety scan in sys tab
 // Add removal of windows features
 // Scan for unwanted files
@@ -24,7 +23,8 @@ SendMode Input
 if not A_IsAdmin
 	Run *RunAs "%A_ScriptFullPath%"
 
-Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|Sys|   ;create a tab control
+Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|   ;create a tab control
+Gui,Color, c9c9c9
 
 ;#######################															HASH TAB
 Gui,Tab,Hash   ; enter tab 1
@@ -50,8 +50,16 @@ Gui,Add,Button,x255 y65 gAddUserToUsers, Au
 Gui,Add,Button,x280 y65 gAddUserToAdmins, Aa
 Gui,Add,Button, x20 y40 w70 guAll, Exec All
 ;#######################															SYSTEM TAB
-Gui,Tab, Sys ; enter tab 3
-Gui,Add,Text,x20 y40 ,This is where you add the controls to tab 3
+Gui,Tab, System ; enter tab 3
+Gui,Add,text,x15 y190 w200 vscurrP,
+Gui,Add,Button, x20 y40 w70 gsAll, Exec All
+Gui,Add,Button, x20 y65 w70 gsFiles, Scan Files
+Gui,Add,Button, x20 y90 w70 gsRDP, RDP
+Gui,Add,Button, x20 y115 w70 gsHost, Clear Hosts
+Gui,Add,Button, x20 y140 w70 gsReg, Reg
+Gui,Add,Button, x20 y165 w70 gsrReg, Rem Reg
+Gui,Add,Button, x95 y40 w70 gsFeatures, Features
+Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
 ;#######################
 
 Gui,Tab, ;exit the tabs
@@ -68,6 +76,43 @@ exportHash:
 	GuiControl,,hOutput,%hFinalOutput%
 	FileDelete, C:\hashTemp.txt
 	Gui,Show,
+return
+
+sAll:
+	findFiles()
+	RDP()
+	Host()
+	Reg()
+	remReg()
+	dsblFeatures()
+	autoUpdates()
+return
+
+aUpdates:
+	autoUpdates()
+return
+
+sFeatures:
+	dsblFeatures()
+return
+srReg:
+	remReg()
+return
+
+sReg:
+	Reg()
+return
+
+sHost:
+	Host()
+return
+
+sRDP:
+	RDP()
+return
+
+sFiles:
+	findFiles()
 return
 	
 uReset:
@@ -217,6 +262,131 @@ usersLoop() {
 	totalLines -= 2
 	return %totalLines%
 }
+
+findFiles() {
+	GuiControl,,scurrP, Finding Bad Files
+	FileRemoveDir, %A_Desktop%\ScannedFiles, 1
+	FileCreateDir, %A_Desktop%\ScannedFiles
+	audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
+	videos := "wma,mp4,avi,mpeg4,webm"
+	images := "jpeg,jpg,bmp,png,gif,pdf"
+	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter
+	excludeDir = AppData,C:\Windows,C:\Program Files,C:\CyberPatriot,Program Data
+	Loop Files, C:\*, FR  ; Recurse into subfolders.
+	{
+		If A_LoopFileLongPath contains %excludeDir%
+			continue
+		else if A_LoopFileExt in %images%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\images.txt
+		else if A_LoopFileExt in %audio%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\audio.txt
+		else if A_LoopFileExt in %videos%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\videos.txt
+		else if A_LoopFileName contains %htools%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\htools.txt
+	}
+}
+
+RDP() {
+	GuiControl,,scurrP, Disabling Remote Desktop Connection 
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fDenyTSConnections, 1
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 0
+	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = disable & exit
+}
+
+Host() {
+	GuiControl,,scurrP, Editing Host Files
+	runwait, %comspec% /k ipconfig /flushdns & exit
+	fileRead, host, C:\Windows\System32\drivers\etc\hosts
+	file := FileOpen("C:\Windows\System32\drivers\etc\hosts", "w")
+	file.close()
+	FileSetAttrib, +SR, C:\Windows\System32\drivers\etc\hosts
+}
+
+Reg() {
+	GuiControl,,scurrP, Editing Registry Values
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; UNFINISHED A TON LOOOOL DOGSHIT
+
+}
+
+remReg() {
+	GuiControl,,scurrP, Remote Registry Off
+	runwait, %comspec% /k net stop RemoteRegistry & exit
+	runwait, %comspec% /k sc config RemoteRegistry start=disabled & exit
+}
+
+dsblFeatures() {
+GuiControl,,scurrP, Disabling Weak Services
+batfeats =
+(join&
+dism /online /disable-feature /featurename:IIS-WebServerRole
+dism /online /disable-feature /featurename:IIS-WebServer
+dism /online /disable-feature /featurename:IIS-CommonHttpFeatures
+dism /online /disable-feature /featurename:IIS-HttpErrors
+dism /online /disable-feature /featurename:IIS-HttpRedirect
+dism /online /disable-feature /featurename:IIS-ApplicationDevelopment
+dism /online /disable-feature /featurename:IIS-NetFxExtensibility
+dism /online /disable-feature /featurename:IIS-NetFxExtensibility45
+dism /online /disable-feature /featurename:IIS-HealthAndDiagnostics
+dism /online /disable-feature /featurename:IIS-HttpLogging
+dism /online /disable-feature /featurename:IIS-LoggingLibraries
+dism /online /disable-feature /featurename:IIS-RequestMonitor
+dism /online /disable-feature /featurename:IIS-HttpTracing
+dism /online /disable-feature /featurename:IIS-Security
+dism /online /disable-feature /featurename:IIS-URLAuthorization
+dism /online /disable-feature /featurename:IIS-RequestFiltering
+dism /online /disable-feature /featurename:IIS-IPSecurity
+dism /online /disable-feature /featurename:IIS-Performance
+dism /online /disable-feature /featurename:IIS-HttpCompressionDynamic
+dism /online /disable-feature /featurename:IIS-WebServerManagementTools
+dism /online /disable-feature /featurename:IIS-ManagementScriptingTools
+dism /online /disable-feature /featurename:IIS-IIS6ManagementCompatibility
+dism /online /disable-feature /featurename:IIS-Metabase
+dism /online /disable-feature /featurename:IIS-HostableWebCore
+dism /online /disable-feature /featurename:IIS-StaticContent
+dism /online /disable-feature /featurename:IIS-DefaultDocument
+dism /online /disable-feature /featurename:IIS-DirectoryBrowsing
+dism /online /disable-feature /featurename:IIS-WebDAV
+dism /online /disable-feature /featurename:IIS-WebSockets
+dism /online /disable-feature /featurename:IIS-ApplicationInit
+dism /online /disable-feature /featurename:IIS-ASPNET
+dism /online /disable-feature /featurename:IIS-ASPNET45
+dism /online /disable-feature /featurename:IIS-ASP
+dism /online /disable-feature /featurename:IIS-CGI
+dism /online /disable-feature /featurename:IIS-ISAPIExtensions
+dism /online /disable-feature /featurename:IIS-ISAPIFilter
+dism /online /disable-feature /featurename:IIS-ServerSideIncludes
+dism /online /disable-feature /featurename:IIS-CustomLogging
+dism /online /disable-feature /featurename:IIS-BasicAuthentication
+dism /online /disable-feature /featurename:IIS-HttpCompressionStatic
+dism /online /disable-feature /featurename:IIS-ManagementConsole
+dism /online /disable-feature /featurename:IIS-ManagementService
+dism /online /disable-feature /featurename:IIS-WMICompatibility
+dism /online /disable-feature /featurename:IIS-LegacyScripts
+dism /online /disable-feature /featurename:IIS-LegacySnapIn
+dism /online /disable-feature /featurename:IIS-FTPServer
+dism /online /disable-feature /featurename:IIS-FTPSvc
+dism /online /disable-feature /featurename:IIS-FTPExtensibility
+dism /online /disable-feature /featurename:TFTP
+dism /online /disable-feature /featurename:TelnetClient
+dism /online /disable-feature /featurename:TelnetServer
+exit
+)
+runwait, %comspec% /k %batfeats%
+}
+
+autoUpdates() {
+	GuiControl,,scurrP, Enabling Auto Updates
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update, AUOptions, 3
+	Run ms-settings:windowsupdate-action
+	WinWait, Settings
+	WinMinimize
+}
+
+
+
+
+
 
 guiClose:
 	FileDelete, C:\tempAdminList.txt
