@@ -63,7 +63,8 @@ Gui,Add,Button, x20 y90 w50 gsRDP, RDP
 Gui,Add,Button, x70 y90 w20 gsoRDP,
 Gui,Add,Button, x20 y115 w70 gsHost, Clear Hosts
 Gui,Add,Button, x20 y140 w70 gsReg, Reg
-Gui,Add,Button, x20 y165 w70 gsrReg, Remote Reg
+Gui,Add,Button, x20 y165 w50 gsrReg, Rem Reg
+Gui,Add,Button, x70 y165 w20 gsorReg,
 Gui,Add,Button, x95 y40 w50 gsFeatures, R Feats
 Gui,Add,Button, x145 y40 w20 gsoFeatures,
 Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
@@ -97,6 +98,13 @@ sAll:
 	Firewall()
 	Integrity()
 	GuiControl,,scurrP, All Functions Executed
+return
+
+sorReg:
+	GuiControl,,scurrP, Remote Registry On
+	runwait, %comspec% /k net start RemoteRegistry & exit
+	runwait, %comspec% /k sc config RemoteRegistry start=enabled & exit
+	GuiControl,,scurrP,
 return
 
 sAudit:
