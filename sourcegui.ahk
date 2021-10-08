@@ -9,8 +9,6 @@
 // TODO:
 // Continue reg edit to sys tab
 // Add system integrety scan in sys tab
-// Add removal of windows features
-// Scan for unwanted files
 // Set password requirements
 // Probably much more.
 //==================================
@@ -57,9 +55,10 @@ Gui,Add,Button, x20 y65 w70 gsFiles, Scan Files
 Gui,Add,Button, x20 y90 w70 gsRDP, RDP
 Gui,Add,Button, x20 y115 w70 gsHost, Clear Hosts
 Gui,Add,Button, x20 y140 w70 gsReg, Reg
-Gui,Add,Button, x20 y165 w70 gsrReg, Rem Reg
-Gui,Add,Button, x95 y40 w70 gsFeatures, Features
+Gui,Add,Button, x20 y165 w70 gsrReg, Remote Reg
+Gui,Add,Button, x95 y40 w70 gsFeatures, Rmv Featrs
 Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
+Gui,Add,Button, x95 y65 w70 gsIntegrity, Integrity
 ;#######################
 
 Gui,Tab, ;exit the tabs
@@ -86,6 +85,10 @@ sAll:
 	remReg()
 	dsblFeatures()
 	autoUpdates()
+return
+
+sIntegrity:
+	Integrity()
 return
 
 aUpdates:
@@ -381,6 +384,11 @@ autoUpdates() {
 	Run ms-settings:windowsupdate-action
 	WinWait, Settings
 	WinMinimize
+}
+
+Integrity() {
+	GuiControl,,scurrP, Scanning System Integrity
+	runwait, %comspec% /k sfc.exe /scannow
 }
 
 
