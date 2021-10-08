@@ -7,6 +7,7 @@
 // VERSION      : 0.69.420
 // ===============================
 // TODO:
+// Add Windows Defender settings
 // Continue reg edit to sys tab
 // Add system integrety scan in sys tab
 // Add removal of windows features
