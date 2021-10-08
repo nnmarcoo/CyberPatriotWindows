@@ -4,9 +4,10 @@
 // CREATE DATE  : 10/2/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
-// VERSION      : 0.1.1
+// VERSION      : 0.69.420
 // ===============================
 // TODO:
+// Add Windows Defender settings
 // Continue reg edit to sys tab
 // Add system integrety scan in sys tab
 // Set password requirements
