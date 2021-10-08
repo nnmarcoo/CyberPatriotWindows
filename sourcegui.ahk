@@ -60,12 +60,12 @@ Gui,Add,text,x15 y190 w200 vscurrP,
 Gui,Add,Button, x20 y40 w70 gsAll, Exec All
 Gui,Add,Button, x20 y65 w70 gsFiles, Scan Files
 Gui,Add,Button, x20 y90 w50 gsRDP, RDP
-Gui,Add,Button, x70 y90 gsoRDP,
+Gui,Add,Button, x70 y90 w20 gsoRDP,
 Gui,Add,Button, x20 y115 w70 gsHost, Clear Hosts
 Gui,Add,Button, x20 y140 w70 gsReg, Reg
 Gui,Add,Button, x20 y165 w70 gsrReg, Remote Reg
 Gui,Add,Button, x95 y40 w50 gsFeatures, R Feats
-Gui,Add,Button, x145 y40 gsoFeatures,
+Gui,Add,Button, x145 y40 w20 gsoFeatures,
 Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
 Gui,Add,Button, x95 y90 w70 gsIntegrity, Integrity
 Gui,Add,Button, x95 y115 w70 gsFirewall, Firewall
