@@ -98,6 +98,7 @@ sAll:
 	autoUpdates()
 	Firewall()
 	Integrity()
+	GuiControl,,scurrP, All Functions Executed
 return
 
 soFeatures:
@@ -158,6 +159,7 @@ soFeatures:
 	exit
 	)
 	runwait, %comspec% /k %oFeatures%
+	GuiControl,,scurrP,
 return
 
 soRDP:
@@ -169,6 +171,7 @@ soRDP:
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = enable & exit
 	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=yes
 	run, SystemPropertiesRemote.exe
+	GuiControl,,scurrP,
 return
 
 sFirewall:
@@ -362,7 +365,7 @@ findFiles() {
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
 	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter
-	excludeDir = AppData,C:\Windows,C:\Program Files,C:\CyberPatriot,Program Data
+	excludeDir = AppData,C:\Windows,C:\Program Files,C:\CyberPatriot,ProgramData,thumbnails
 	Loop Files, C:\*, FR  ; Recurse into subfolders.
 	{
 		If A_LoopFileLongPath contains %excludeDir%
@@ -376,6 +379,7 @@ findFiles() {
 		else if A_LoopFileName contains %htools%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\htools.txt
 	}
+	GuiControl,,scurrP,
 }
 
 RDP() {
@@ -386,6 +390,7 @@ RDP() {
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 0
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = disable & exit
 	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=no
+	GuiControl,,scurrP,
 }
 
 Host() {
@@ -395,12 +400,14 @@ Host() {
 	file := FileOpen("C:\Windows\System32\drivers\etc\hosts", "w")
 	file.close()
 	FileSetAttrib, +SR, C:\Windows\System32\drivers\etc\hosts
+	GuiControl,,scurrP,
 }
 
 remReg() {
 	GuiControl,,scurrP, Remote Registry Off
 	runwait, %comspec% /k net stop RemoteRegistry & exit
 	runwait, %comspec% /k sc config RemoteRegistry start=disabled & exit
+	GuiControl,,scurrP,
 }
 
 autoUpdates() {
@@ -409,11 +416,12 @@ autoUpdates() {
 	Run ms-settings:windowsupdate-action
 	WinWait, Settings
 	WinMinimize
+	GuiControl,,scurrP,
 }
 
 Integrity() {
 	GuiControl,,scurrP, Scanning System Integrity
-	runwait, %comspec% /k sfc.exe /scannow
+	run, %comspec% /k sfc.exe /scannow
 }
 
 Firewall() {
@@ -432,12 +440,14 @@ Firewall() {
 	exit
 	)
 	runwait, %comspec% /k %eFirewall%
+	GuiControl,,scurrP,
 }
 
 Reg() {
 	GuiControl,,scurrP, Editing Registry Values
 	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; UNFINISHED A TON LOOOOL DOGSHIT
-
+	
+	GuiControl,,scurrP,
 }
 
 dsblFeatures() {
@@ -498,6 +508,7 @@ dsblFeatures() {
 	exit
 	)
 	runwait, %comspec% /k %batfeats%
+	GuiControl,,scurrP,
 }
 
 guiClose:
