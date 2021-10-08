@@ -59,7 +59,8 @@ Gui,Add,Button, x20 y140 w70 gsReg, Reg
 Gui,Add,Button, x20 y165 w70 gsrReg, Remote Reg
 Gui,Add,Button, x95 y40 w70 gsFeatures, Rmv Featrs
 Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
-Gui,Add,Button, x95 y65 w70 gsIntegrity, Integrity
+Gui,Add,Button, x95 y90 w70 gsIntegrity, Integrity
+Gui,Add,Button, x95 y115 w70 gsFirewall, Firewall
 ;#######################
 
 Gui,Tab, ;exit the tabs
@@ -86,6 +87,12 @@ sAll:
 	remReg()
 	dsblFeatures()
 	autoUpdates()
+	Firewall()
+	Integrity()
+return
+
+sFirewall:
+	Firewall()
 return
 
 sIntegrity:
@@ -307,16 +314,34 @@ Host() {
 	FileSetAttrib, +SR, C:\Windows\System32\drivers\etc\hosts
 }
 
-Reg() {
-	GuiControl,,scurrP, Editing Registry Values
-	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; UNFINISHED A TON LOOOOL DOGSHIT
-
-}
-
 remReg() {
 	GuiControl,,scurrP, Remote Registry Off
 	runwait, %comspec% /k net stop RemoteRegistry & exit
 	runwait, %comspec% /k sc config RemoteRegistry start=disabled & exit
+}
+
+autoUpdates() {
+	GuiControl,,scurrP, Enabling Auto Updates
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update, AUOptions, 3
+	Run ms-settings:windowsupdate-action
+	WinWait, Settings
+	WinMinimize
+}
+
+Integrity() {
+	GuiControl,,scurrP, Scanning System Integrity
+	runwait, %comspec% /k sfc.exe /scannow
+}
+
+Firewall() {
+	GuiControl,,scurrP, Enabling Firewall
+	runwait, %comspec% /k netsh advfirewall reset & NetSh Advfirewall set allprofiles state on & exit
+}
+
+Reg() {
+	GuiControl,,scurrP, Editing Registry Values
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; UNFINISHED A TON LOOOOL DOGSHIT
+
 }
 
 dsblFeatures() {
@@ -378,24 +403,6 @@ exit
 )
 runwait, %comspec% /k %batfeats%
 }
-
-autoUpdates() {
-	GuiControl,,scurrP, Enabling Auto Updates
-	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update, AUOptions, 3
-	Run ms-settings:windowsupdate-action
-	WinWait, Settings
-	WinMinimize
-}
-
-Integrity() {
-	GuiControl,,scurrP, Scanning System Integrity
-	runwait, %comspec% /k sfc.exe /scannow
-}
-
-
-
-
-
 
 guiClose:
 	FileDelete, C:\tempAdminList.txt
