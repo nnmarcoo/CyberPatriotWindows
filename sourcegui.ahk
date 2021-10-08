@@ -69,6 +69,8 @@ Gui,Add,Button, x145 y40 w20 gsoFeatures,
 Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
 Gui,Add,Button, x95 y90 w70 gsIntegrity, Integrity
 Gui,Add,Button, x95 y115 w70 gsFirewall, Firewall
+Gui,Add,Button, x95 y140 w50 gsAudit, Audit
+Gui,Add,Button, x145 y140 w20 goffAudit,
 ;#######################
 Gui,Tab, ;exit the tabs
 ;Gui,Add,Text,x10 y220,bruh
@@ -95,6 +97,15 @@ sAll:
 	Firewall()
 	Integrity()
 	GuiControl,,scurrP, All Functions Executed
+return
+
+sAudit:
+	audit()
+return
+
+offAudit:
+	runwait, %comspec% /k auditpol /set /category:* /success:disable
+	runwait, %comspec% /k auditpol /set /category:* /failure:disable
 return
 soRDP:
 	GuiControl,,scurrP, Enabling Remote Desktop Connection 
@@ -360,6 +371,10 @@ Reg() {
 	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; UNFINISHED A TON LOOOOL DOGSHIT
 	
 	GuiControl,,scurrP,
+}
+audit() {
+	runwait, %comspec% /k auditpol /set /category:* /success:enable
+	runwait, %comspec% /k auditpol /set /category:* /failure:enable
 }
 
 soFeatures:
