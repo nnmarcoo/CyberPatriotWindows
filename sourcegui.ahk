@@ -390,8 +390,31 @@ Firewall() {
 }
 Reg() {
 	GuiControl,,scurrP, Editing Registry Values
-	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; UNFINISHED A TON LOOOOL DOGSHIT
-	
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; Enable UAC
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU, AutoInstallMinorUpdates, 1 ; Install Minor Updates
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU, NoAutoUpdate, 0 ; Disable No Auto Updates
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU, AUOptions, 4 ; Enable Auto Updates
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update, AUOptions, 4 ; Enable Auto Updates
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate, DisableWindowsUpdateAccess, 0 ; Disable Windows Update Access
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate, ElevateNonAdmins, 0 ; ElevateNonAdmins
+	RegWrite, REG_DWORD, HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer, NoWindowsUpdate, 0 ; Enable Windows Update
+	RegWrite, REG_DWORD, HKLM\SYSTEM\Internet Communication Management\Internet Communication, DisableWindowsUpdateAccess, 0 ; Enable Windows Update
+	RegWrite, REG_DWORD, HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate, DisableWindowsUpdateAccess, 0; Enable Windows Update
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon, AllocateCDRoms, 1 ; Allocate CD Roms
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon, AllocateFloppies, 1 ; Allocate Floppy Disks
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon, AutoAdminLogon, 0 ; Auto Admin Logon
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management, ClearPageFileAtShutdown, 1 ; Clear Page File At Shutdown
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers, AddPrinterDrivers, 1 ; Add Printer Drivers
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe, AuditLevel, 00000008 ; Change Audit Level
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, RunAsPPL, 00000001 ; Run as PPL
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, LimitBlankPasswordUse, 1 ; Limit Blank Passwords
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, auditbaseobjects, 1 ; Audit Base Objects
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, fullprivilegeauditing, 1 ; Enable Full Privilege Auditing
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, restrictanonymous, 1 ; Restrict Anonymous
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, restrictanonymoussam, 1 ; Restrict Anonymous SAM
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, disabledomaincreds, 1 ; Disable Domain Credentials
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, everyoneincludesanonymous, 0 ; Everyone Includes Anonymous
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, UseMachineId, 0 ; Use Machine ID
 	GuiControl,,scurrP,
 }
 audit() {
@@ -407,7 +430,7 @@ sPwr() {
 soFeatures:
 	GuiControl,,scurrP, Enabling Features
 	oFeatures =
-	(
+	(join&
 	dism /online /enable-feature /featurename:IIS-WebServerRole
 	dism /online /enable-feature /featurename:IIS-WebServer
 	dism /online /enable-feature /featurename:IIS-CommonHttpFeatures
