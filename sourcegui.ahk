@@ -72,6 +72,7 @@ Gui,Add,Button, x95 y90 w70 gsIntegrity, Integrity
 Gui,Add,Button, x95 y115 w70 gsFirewall, Firewall
 Gui,Add,Button, x95 y140 w50 gsAudit, Audit
 Gui,Add,Button, x145 y140 w20 goffAudit,
+Gui,Add,Button, x95 y165 w70 gsPower, Power
 ;#######################
 Gui,Tab, ;exit the tabs
 ;Gui,Add,Text,x10 y220,bruh
@@ -98,6 +99,10 @@ sAll:
 	Firewall()
 	Integrity()
 	GuiControl,,scurrP, All Functions Executed
+return
+
+sPower:
+	sPwr()
 return
 
 sorReg:
@@ -248,6 +253,15 @@ setCorrectPermissions() {
 		IfNotExist, C:\tempAdminList.txt
 			MsgBox, You must enter the authorized Users and Admins.
 			Exit
+	gUsers =
+	(join&
+	net user Administrator /active:no
+	net user Guest /active:no
+	net user WDAGUtilityAccount /active:no
+	net user DefaultAccount /active:no
+	exit
+	)
+	runwait, %comspec% /k %gUsers%
 	pLoops := usersLoop()
 	Loop, %pLoops%
 	{
@@ -385,6 +399,11 @@ audit() {
 	runwait, %comspec% /k auditpol /set /category:* /failure:enable
 }
 
+sPwr() {
+	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_BALANCED SUB_NONE CONSOLELOCK 1
+	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MIN SUB_NONE CONSOLELOCK 1
+	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MAX SUB_NONE CONSOLELOCK 1
+}
 soFeatures:
 	GuiControl,,scurrP, Enabling Features
 	oFeatures =
