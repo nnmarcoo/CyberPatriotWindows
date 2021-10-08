@@ -2,6 +2,7 @@
 //==================================
 // AUTHOR       : Marco Todorov
 // CREATE DATE  : 10/2/2021
+// LAST MODIFIED: 10/7/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
 // VERSION      : 0.69.420
@@ -11,7 +12,13 @@
 // Continue reg edit to sys tab
 // Add system integrety scan in sys tab
 // Set password requirements
-// Probably much more.
+// TOGGLE REMOTE DESKTOP
+// Rename admin? rename guest?
+// group policy is allowing modifications to the firewall
+// Password policy
+// AUDITING
+// user rights?
+// so many registry keys bruh
 //==================================
 */
 
@@ -25,13 +32,13 @@ if not A_IsAdmin
 Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|   ;create a tab control
 Gui,Color, c9c9c9
 
-;#######################															HASH TAB
+;#######################														HASH TAB
 Gui,Tab,Hash   ; enter tab 1
 Gui,Add, DropDownList, x20 y40 w70 vHASH, SHA1|SHA256|SHA384|SHA512|MD2|MD4|MD5
 Gui,Add, Edit, x95 y40 w205 vhInput, File Directory
 Gui,Add, Button, x19 y70 w281 gexportHash, Export
 Gui,Add, Edit, x20 y100 w280 h100 vhOutput, Output
-;#######################															USER TAB
+;#######################														USER TAB
 Gui,Tab, 2 ; enter tab 2 by using its position in the list of tabs
 Gui,Add, Edit, x20 y95 w280 h105 vuOutput, Output
 Gui,Add,Button, x100 y39 genterAdmins, A
@@ -48,16 +55,18 @@ Gui,Add,Button,x230 y65 gCreateUser, Cu
 Gui,Add,Button,x255 y65 gAddUserToUsers, Au
 Gui,Add,Button,x280 y65 gAddUserToAdmins, Aa
 Gui,Add,Button, x20 y40 w70 guAll, Exec All
-;#######################															SYSTEM TAB
+;#######################														SYSTEM TAB
 Gui,Tab, System ; enter tab 3
 Gui,Add,text,x15 y190 w200 vscurrP,
 Gui,Add,Button, x20 y40 w70 gsAll, Exec All
 Gui,Add,Button, x20 y65 w70 gsFiles, Scan Files
-Gui,Add,Button, x20 y90 w70 gsRDP, RDP
+Gui,Add,Button, x20 y90 w50 gsRDP, RDP
+Gui,Add,Button, x70 y90 gsoRDP,
 Gui,Add,Button, x20 y115 w70 gsHost, Clear Hosts
 Gui,Add,Button, x20 y140 w70 gsReg, Reg
 Gui,Add,Button, x20 y165 w70 gsrReg, Remote Reg
-Gui,Add,Button, x95 y40 w70 gsFeatures, Rmv Featrs
+Gui,Add,Button, x95 y40 w50 gsFeatures, R Feats
+Gui,Add,Button, x145 y40 gsoFeatures,
 Gui,Add,Button, x95 y65 w70 gaUpdates, Auto Update
 Gui,Add,Button, x95 y90 w70 gsIntegrity, Integrity
 Gui,Add,Button, x95 y115 w70 gsFirewall, Firewall
@@ -67,9 +76,9 @@ Gui,Tab, ;exit the tabs
 ;Gui,Add,Text,x10 y220,bruh
 Gui,Show,
 return
-;#######################															END OF WINDOW CONFIGURATION
+;#######################														END OF WINDOW CONFIGURATION
 
-;#######################															FUNCTIONS
+;#######################														FUNCTIONS
 exportHash:
 	Gui, Submit
 	runwait, %comspec% /k certutil -hashfile "%hInput%" %HASH% >> C:\hashTemp.txt & exit
@@ -89,6 +98,77 @@ sAll:
 	autoUpdates()
 	Firewall()
 	Integrity()
+return
+
+soFeatures:
+	GuiControl,,scurrP, Enabling Features
+	oFeatures =
+	(
+	dism /online /enable-feature /featurename:IIS-WebServerRole
+	dism /online /enable-feature /featurename:IIS-WebServer
+	dism /online /enable-feature /featurename:IIS-CommonHttpFeatures
+	dism /online /enable-feature /featurename:IIS-HttpErrors
+	dism /online /enable-feature /featurename:IIS-HttpRedirect
+	dism /online /enable-feature /featurename:IIS-ApplicationDevelopment
+	dism /online /enable-feature /featurename:IIS-NetFxExtensibility
+	dism /online /enable-feature /featurename:IIS-NetFxExtensibility45
+	dism /online /enable-feature /featurename:IIS-HealthAndDiagnostics
+	dism /online /enable-feature /featurename:IIS-HttpLogging
+	dism /online /enable-feature /featurename:IIS-LoggingLibraries
+	dism /online /enable-feature /featurename:IIS-RequestMonitor
+	dism /online /enable-feature /featurename:IIS-HttpTracing
+	dism /online /enable-feature /featurename:IIS-Security
+	dism /online /enable-feature /featurename:IIS-URLAuthorization
+	dism /online /enable-feature /featurename:IIS-RequestFiltering
+	dism /online /enable-feature /featurename:IIS-IPSecurity
+	dism /online /enable-feature /featurename:IIS-Performance
+	dism /online /enable-feature /featurename:IIS-HttpCompressionDynamic
+	dism /online /enable-feature /featurename:IIS-WebServerManagementTools
+	dism /online /enable-feature /featurename:IIS-ManagementScriptingTools
+	dism /online /enable-feature /featurename:IIS-IIS6ManagementCompatibility
+	dism /online /enable-feature /featurename:IIS-Metabase
+	dism /online /enable-feature /featurename:IIS-HostableWebCore
+	dism /online /enable-feature /featurename:IIS-StaticContent
+	dism /online /enable-feature /featurename:IIS-DefaultDocument
+	dism /online /enable-feature /featurename:IIS-DirectoryBrowsing
+	dism /online /enable-feature /featurename:IIS-WebDAV
+	dism /online /enable-feature /featurename:IIS-WebSockets
+	dism /online /enable-feature /featurename:IIS-ApplicationInit
+	dism /online /enable-feature /featurename:IIS-ASPNET
+	dism /online /enable-feature /featurename:IIS-ASPNET45
+	dism /online /enable-feature /featurename:IIS-ASP
+	dism /online /enable-feature /featurename:IIS-CGI
+	dism /online /enable-feature /featurename:IIS-ISAPIExtensions
+	dism /online /enable-feature /featurename:IIS-ISAPIFilter
+	dism /online /enable-feature /featurename:IIS-ServerSideIncludes
+	dism /online /enable-feature /featurename:IIS-CustomLogging
+	dism /online /enable-feature /featurename:IIS-BasicAuthentication
+	dism /online /enable-feature /featurename:IIS-HttpCompressionStatic
+	dism /online /enable-feature /featurename:IIS-ManagementConsole
+	dism /online /enable-feature /featurename:IIS-ManagementService
+	dism /online /enable-feature /featurename:IIS-WMICompatibility
+	dism /online /enable-feature /featurename:IIS-LegacyScripts
+	dism /online /enable-feature /featurename:IIS-LegacySnapIn
+	dism /online /enable-feature /featurename:IIS-FTPServer
+	dism /online /enable-feature /featurename:IIS-FTPSvc
+	dism /online /enable-feature /featurename:IIS-FTPExtensibility
+	dism /online /enable-feature /featurename:TFTP
+	dism /online /enable-feature /featurename:TelnetClient
+	dism /online /enable-feature /featurename:TelnetServer
+	exit
+	)
+	runwait, %comspec% /k %oFeatures%
+return
+
+soRDP:
+	GuiControl,,scurrP, Enabling Remote Desktop Connection 
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fDenyTSConnections, 0
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, AllowTSConnections, 1
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fAllowToGetHelp, 1
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 1
+	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = enable & exit
+	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=yes
+	run, SystemPropertiesRemote.exe
 return
 
 sFirewall:
@@ -301,8 +381,11 @@ findFiles() {
 RDP() {
 	GuiControl,,scurrP, Disabling Remote Desktop Connection 
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fDenyTSConnections, 1
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, AllowTSConnections, 0
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fAllowToGetHelp, 0
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 0
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = disable & exit
+	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=no
 }
 
 Host() {
@@ -335,7 +418,20 @@ Integrity() {
 
 Firewall() {
 	GuiControl,,scurrP, Enabling Firewall
-	runwait, %comspec% /k netsh advfirewall reset & NetSh Advfirewall set allprofiles state on & exit
+	eFirewall =
+	(join&
+	NetSh Advfirewall set allprofiles state on
+	netsh advfirewall firewall set rule name="Remote Assistance (RA Server TCP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="netcat" new enable=no
+	netsh advfirewall firewall set rule name="Remote Assistance (SSDP UDP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (TCP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Telnet Server" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (DCOM-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (PNRP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (SSDP TCP-In)" new enable=no 
+	exit
+	)
+	runwait, %comspec% /k %eFirewall%
 }
 
 Reg() {
@@ -345,63 +441,63 @@ Reg() {
 }
 
 dsblFeatures() {
-GuiControl,,scurrP, Disabling Weak Services
-batfeats =
-(join&
-dism /online /disable-feature /featurename:IIS-WebServerRole
-dism /online /disable-feature /featurename:IIS-WebServer
-dism /online /disable-feature /featurename:IIS-CommonHttpFeatures
-dism /online /disable-feature /featurename:IIS-HttpErrors
-dism /online /disable-feature /featurename:IIS-HttpRedirect
-dism /online /disable-feature /featurename:IIS-ApplicationDevelopment
-dism /online /disable-feature /featurename:IIS-NetFxExtensibility
-dism /online /disable-feature /featurename:IIS-NetFxExtensibility45
-dism /online /disable-feature /featurename:IIS-HealthAndDiagnostics
-dism /online /disable-feature /featurename:IIS-HttpLogging
-dism /online /disable-feature /featurename:IIS-LoggingLibraries
-dism /online /disable-feature /featurename:IIS-RequestMonitor
-dism /online /disable-feature /featurename:IIS-HttpTracing
-dism /online /disable-feature /featurename:IIS-Security
-dism /online /disable-feature /featurename:IIS-URLAuthorization
-dism /online /disable-feature /featurename:IIS-RequestFiltering
-dism /online /disable-feature /featurename:IIS-IPSecurity
-dism /online /disable-feature /featurename:IIS-Performance
-dism /online /disable-feature /featurename:IIS-HttpCompressionDynamic
-dism /online /disable-feature /featurename:IIS-WebServerManagementTools
-dism /online /disable-feature /featurename:IIS-ManagementScriptingTools
-dism /online /disable-feature /featurename:IIS-IIS6ManagementCompatibility
-dism /online /disable-feature /featurename:IIS-Metabase
-dism /online /disable-feature /featurename:IIS-HostableWebCore
-dism /online /disable-feature /featurename:IIS-StaticContent
-dism /online /disable-feature /featurename:IIS-DefaultDocument
-dism /online /disable-feature /featurename:IIS-DirectoryBrowsing
-dism /online /disable-feature /featurename:IIS-WebDAV
-dism /online /disable-feature /featurename:IIS-WebSockets
-dism /online /disable-feature /featurename:IIS-ApplicationInit
-dism /online /disable-feature /featurename:IIS-ASPNET
-dism /online /disable-feature /featurename:IIS-ASPNET45
-dism /online /disable-feature /featurename:IIS-ASP
-dism /online /disable-feature /featurename:IIS-CGI
-dism /online /disable-feature /featurename:IIS-ISAPIExtensions
-dism /online /disable-feature /featurename:IIS-ISAPIFilter
-dism /online /disable-feature /featurename:IIS-ServerSideIncludes
-dism /online /disable-feature /featurename:IIS-CustomLogging
-dism /online /disable-feature /featurename:IIS-BasicAuthentication
-dism /online /disable-feature /featurename:IIS-HttpCompressionStatic
-dism /online /disable-feature /featurename:IIS-ManagementConsole
-dism /online /disable-feature /featurename:IIS-ManagementService
-dism /online /disable-feature /featurename:IIS-WMICompatibility
-dism /online /disable-feature /featurename:IIS-LegacyScripts
-dism /online /disable-feature /featurename:IIS-LegacySnapIn
-dism /online /disable-feature /featurename:IIS-FTPServer
-dism /online /disable-feature /featurename:IIS-FTPSvc
-dism /online /disable-feature /featurename:IIS-FTPExtensibility
-dism /online /disable-feature /featurename:TFTP
-dism /online /disable-feature /featurename:TelnetClient
-dism /online /disable-feature /featurename:TelnetServer
-exit
-)
-runwait, %comspec% /k %batfeats%
+	GuiControl,,scurrP, Disabling Weak Services
+	batfeats =
+	(join&
+	dism /online /disable-feature /featurename:IIS-WebServerRole
+	dism /online /disable-feature /featurename:IIS-WebServer
+	dism /online /disable-feature /featurename:IIS-CommonHttpFeatures
+	dism /online /disable-feature /featurename:IIS-HttpErrors
+	dism /online /disable-feature /featurename:IIS-HttpRedirect
+	dism /online /disable-feature /featurename:IIS-ApplicationDevelopment
+	dism /online /disable-feature /featurename:IIS-NetFxExtensibility
+	dism /online /disable-feature /featurename:IIS-NetFxExtensibility45
+	dism /online /disable-feature /featurename:IIS-HealthAndDiagnostics
+	dism /online /disable-feature /featurename:IIS-HttpLogging
+	dism /online /disable-feature /featurename:IIS-LoggingLibraries
+	dism /online /disable-feature /featurename:IIS-RequestMonitor
+	dism /online /disable-feature /featurename:IIS-HttpTracing
+	dism /online /disable-feature /featurename:IIS-Security
+	dism /online /disable-feature /featurename:IIS-URLAuthorization
+	dism /online /disable-feature /featurename:IIS-RequestFiltering
+	dism /online /disable-feature /featurename:IIS-IPSecurity
+	dism /online /disable-feature /featurename:IIS-Performance
+	dism /online /disable-feature /featurename:IIS-HttpCompressionDynamic
+	dism /online /disable-feature /featurename:IIS-WebServerManagementTools
+	dism /online /disable-feature /featurename:IIS-ManagementScriptingTools
+	dism /online /disable-feature /featurename:IIS-IIS6ManagementCompatibility
+	dism /online /disable-feature /featurename:IIS-Metabase
+	dism /online /disable-feature /featurename:IIS-HostableWebCore
+	dism /online /disable-feature /featurename:IIS-StaticContent
+	dism /online /disable-feature /featurename:IIS-DefaultDocument
+	dism /online /disable-feature /featurename:IIS-DirectoryBrowsing
+	dism /online /disable-feature /featurename:IIS-WebDAV
+	dism /online /disable-feature /featurename:IIS-WebSockets
+	dism /online /disable-feature /featurename:IIS-ApplicationInit
+	dism /online /disable-feature /featurename:IIS-ASPNET
+	dism /online /disable-feature /featurename:IIS-ASPNET45
+	dism /online /disable-feature /featurename:IIS-ASP
+	dism /online /disable-feature /featurename:IIS-CGI
+	dism /online /disable-feature /featurename:IIS-ISAPIExtensions
+	dism /online /disable-feature /featurename:IIS-ISAPIFilter
+	dism /online /disable-feature /featurename:IIS-ServerSideIncludes
+	dism /online /disable-feature /featurename:IIS-CustomLogging
+	dism /online /disable-feature /featurename:IIS-BasicAuthentication
+	dism /online /disable-feature /featurename:IIS-HttpCompressionStatic
+	dism /online /disable-feature /featurename:IIS-ManagementConsole
+	dism /online /disable-feature /featurename:IIS-ManagementService
+	dism /online /disable-feature /featurename:IIS-WMICompatibility
+	dism /online /disable-feature /featurename:IIS-LegacyScripts
+	dism /online /disable-feature /featurename:IIS-LegacySnapIn
+	dism /online /disable-feature /featurename:IIS-FTPServer
+	dism /online /disable-feature /featurename:IIS-FTPSvc
+	dism /online /disable-feature /featurename:IIS-FTPExtensibility
+	dism /online /disable-feature /featurename:TFTP
+	dism /online /disable-feature /featurename:TelnetClient
+	dism /online /disable-feature /featurename:TelnetServer
+	exit
+	)
+	runwait, %comspec% /k %batfeats%
 }
 
 guiClose:
