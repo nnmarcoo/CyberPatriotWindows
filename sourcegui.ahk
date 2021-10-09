@@ -75,11 +75,15 @@ Gui,Add,Button, x145 y140 w20 goffAudit,
 Gui,Add,Button, x95 y165 w70 gsPower, Power
 ;#######################
 Gui,Tab, ;exit the tabs
-Gui,Add,Button,x10 y220,READ ME
+Gui,Add,Button,x10 y220 gREADME,READ ME
 Gui,Show,
 return
 ;#######################														END OF WINDOW CONFIGURATION
 ;#######################														FUNCTIONS
+README:
+Msgbox, WARNING: very work in progress`n`nHASH:`nVery simple interface. Set Hash, exact file directory UNLESS file is in script directory, and click export.`n`nUSERS:`nExec all is probably broken, don't bother trying it. Be sure to read the help button in the window.`nCopy users into clipboard and click the U button to users them to "authorized users", then add admins by copying name(s) to clipboard, then clicking U.`nThe U adds the user to both (User and Admin) lists, the A button is rarely used.`nThe small text box is used for adding users. Type the user name then click the buttons to the right to add, and/or assign a group (user or admin).`n`nSYSTEM:`nJust click exec all and see what happens. Be patient. The current process is in the bottom left of the window.`nThe small square box to the right of a System button will do the reverse of what "securing" would be. For example, the square beside RDP will ENABLE it, while the large button disables.
+return
+
 exportHash:
 	Gui, Submit
 	runwait, %comspec% /k certutil -hashfile "%hInput%" %HASH% >> C:\hashTemp.txt & exit
