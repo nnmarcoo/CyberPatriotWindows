@@ -63,7 +63,7 @@ Gui,Add,Button, x20 y90 w50 gsRDP, RDP
 Gui,Add,Button, x70 y90 w20 gsoRDP,
 Gui,Add,Button, x20 y115 w70 gsHost, Clear Hosts
 Gui,Add,Button, x20 y140 w70 gsReg, Reg
-Gui,Add,Button, x20 y165 w50 gsrReg, Rem Reg
+Gui,Add,Button, x20 y165 w50 gsrReg, R Reg
 Gui,Add,Button, x70 y165 w20 gsorReg,
 Gui,Add,Button, x95 y40 w50 gsFeatures, R Feats
 Gui,Add,Button, x145 y40 w20 gsoFeatures,
@@ -75,7 +75,7 @@ Gui,Add,Button, x145 y140 w20 goffAudit,
 Gui,Add,Button, x95 y165 w70 gsPower, Power
 ;#######################
 Gui,Tab, ;exit the tabs
-;Gui,Add,Text,x10 y220,bruh
+Gui,Add,Button,x10 y220,READ ME
 Gui,Show,
 return
 ;#######################														END OF WINDOW CONFIGURATION
@@ -117,8 +117,8 @@ sAudit:
 return
 
 offAudit:
-	runwait, %comspec% /k auditpol /set /category:* /success:disable
-	runwait, %comspec% /k auditpol /set /category:* /failure:disable
+	runwait, %comspec% /k auditpol /set /category:* /success:disable & exit
+	runwait, %comspec% /k auditpol /set /category:* /failure:disable & exit
 return
 soRDP:
 	GuiControl,,scurrP, Enabling Remote Desktop Connection 
@@ -127,7 +127,7 @@ soRDP:
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fAllowToGetHelp, 1
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 1
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = enable & exit
-	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=yes
+	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=yes & exit
 	run, SystemPropertiesRemote.exe
 	GuiControl,,scurrP,
 return
@@ -224,6 +224,7 @@ return
 uHelp:
 	msgbox, A = Add clipboard to Admin list (this is rarely used)`nU = Add clipboard to User list`nB = Add clipboard to both lists`nvA = View Admin list`nvU = View User list`nReset = Resets values in the Admins and Users list`nCu = Create new user`nAu = Add user in small textbox to user group`nAa = Add user in small text box to admin group
 return
+
 parseREADME(Needle) { ;doesn't fucking work
 	FileRead, readme, %input%
 	return RegExReplace(readme, ".*?" Needle, "")
@@ -310,7 +311,7 @@ findFiles() {
 	audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
-	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter
+	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter,zip
 	excludeDir = AppData,C:\Windows,C:\Program Files,C:\CyberPatriot,ProgramData,thumbnails
 	Loop Files, C:\*, FR  ; Recurse into subfolders.
 	{
@@ -335,7 +336,7 @@ RDP() {
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server, fAllowToGetHelp, 0
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 0
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = disable & exit
-	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=no
+	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=no & exit
 	GuiControl,,scurrP,
 }
 
@@ -366,8 +367,8 @@ autoUpdates() {
 }
 
 Integrity() {
-	GuiControl,,scurrP, Scanning System Integrity
-	run, %comspec% /k sfc.exe /scannow
+	GuiControl,,scurrP, Scanning System Integrity (Minimize and do other shit)
+	run, %comspec% /k sfc.exe /scannow & exit
 }
 
 Firewall() {
@@ -415,17 +416,51 @@ Reg() {
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, disabledomaincreds, 1 ; Disable Domain Credentials
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, everyoneincludesanonymous, 0 ; Everyone Includes Anonymous
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Lsa, UseMachineId, 0 ; Use Machine ID
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, dontdisplaylastusername, 1 ; Do Not Disable Username On Login
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; Enable UAC
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, PromptOnSecureDesktop, 1 ; Prompt On Secure Desktop
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableInstallerDetection, 1 ; Installer Detection
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, undockwithoutlogon, 0 ; Undock Without Logon
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, DisableCAD, 0 ; Disable CAD
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters, MaximumPasswordAge, 30 ; Maximum Password Age To 30
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters, DisablePasswordChange, 1 ; Disable Password Changing?
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters, RequireStrongKey, 1 ; Require A Strong Key
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters, RequireSignOrSeal, 1 ; Require A Sign Or Seal
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters, SignSecureChannel, 1 ; Sign Secure Channel
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters, SealSecureChannel, 1 ; Seal Secure Channel
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, autodisconnect, 45 ; Auto Disconnect 45 seconds
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, enablesecuritysignature, 0 ; Enable Security Signature
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, requiresecuritysignature, 0 ; Require Security Signature
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced, ShowSuperHidden, 1 ; Show Super Hidden Files
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\CrashControl, CrashDumpEnabled, 0 ; Crash Dump Enabled
+	RegWrite, REG_DWORD, HKCU\SYSTEM\CurrentControlSet\Services\CDROM, AutoRun, 1 ; Auto Run?
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced, Hidden, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings, WarnonZoneCrossing, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_LOCALMACHINE_LOCKDOWN\Settings, LOCALMACHINE_CD_UNLOCK, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Internet Explorer\Download, RunInvalidSignatures, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Internet Explorer\Main, DoNotTrack, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings, WarnOnPostRedirect, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings, WarnonBadCertRecving, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings, DisablePasswordCaching, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Internet Explorer\PhishingFilter, EnabledV9, 1
+	RegWrite, REG_DWORD, HKCU\Software\Microsoft\Internet Explorer\PhishingFilter, EnabledV8, 1
+	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\services\LanmanWorkstation\Parameters, EnablePlainTextPassword, 0
+	RegWrite, REG_SZ, HKU\.DEFAULT\Control Panel\Accessibility\StickyKeys, Flags, 506
+	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\winreg\AllowedPaths, Machine, ""
+	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\winreg\AllowedExactPaths, Machine, ""
+	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionPipes, ""
+	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionShares, ""
 	GuiControl,,scurrP,
 }
 audit() {
-	runwait, %comspec% /k auditpol /set /category:* /success:enable
-	runwait, %comspec% /k auditpol /set /category:* /failure:enable
+	runwait, %comspec% /k auditpol /set /category:* /success:enable & exit
+	runwait, %comspec% /k auditpol /set /category:* /failure:enable & exit
 }
 
 sPwr() {
-	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_BALANCED SUB_NONE CONSOLELOCK 1
-	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MIN SUB_NONE CONSOLELOCK 1
-	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MAX SUB_NONE CONSOLELOCK 1
+	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_BALANCED SUB_NONE CONSOLELOCK 1 & exit
+	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MIN SUB_NONE CONSOLELOCK 1 & exit
+	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MAX SUB_NONE CONSOLELOCK 1 & exit
 }
 soFeatures:
 	GuiControl,,scurrP, Enabling Features
