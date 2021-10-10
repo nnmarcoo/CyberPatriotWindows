@@ -75,8 +75,17 @@ Gui,Add,Button, x145 y140 w20 goffAudit,
 Gui,Add,Button, x95 y165 w70 gsPower, Power
 ;#######################
 Gui,Tab, ;exit the tabs
-Gui,Add,Button,x10 y220 gREADME,READ ME
-Gui,Show,
+Gui,Add,Button,x250 y215 gREADME,READ ME
+Gui,Font, s7
+Gui,Add,Text, x5 y210, Workgroup:
+Gui,Font, s10
+Gui,Add,Text, x5 y225 w200 vWorkgroup,
+runwait, %comspec% /k systeminfo | findstr /B "Domain" >> C:\tempWorkgroup.txt & exit
+FileReadLine, tWorkgroup, C:\tempWorkgroup.txt, 1
+tWorkgroup := LTrim(tWorkgroup, "Domain:")
+tWorkgroup := LTrim(tWorkgroup)
+GuiControl,,Workgroup,%tWorkgroup%
+gui,show,
 return
 ;#######################														END OF WINDOW CONFIGURATION
 ;#######################														FUNCTIONS
@@ -108,6 +117,8 @@ sAll:
 	autoUpdates()
 	Sleep, 100
 	Firewall()
+	Sleep, 100
+	audit()
 	Sleep, 100
 	Integrity()
 	GuiControl,,scurrP, All Functions Executed
@@ -602,4 +613,5 @@ guiClose:
 	FileDelete, C:\tempAdminList.txt
 	FileDelete, C:\tempUserList.txt
 	FileDelete, C:\usersTemp.txt
+	FileDelete, C:\tempworkgroup.txt
 	ExitApp
