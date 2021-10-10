@@ -94,13 +94,21 @@ exportHash:
 return
 sAll:
 	findFiles()
+	Sleep, 100
 	RDP()
+	Sleep, 100
 	Host()
+	Sleep, 100
 	Reg()
+	Sleep, 100
 	remReg()
+	Sleep, 100
 	dsblFeatures()
+	Sleep, 100
 	autoUpdates()
+	Sleep, 100
 	Firewall()
+	Sleep, 100
 	Integrity()
 	GuiControl,,scurrP, All Functions Executed
 return
@@ -256,8 +264,10 @@ return
 setCorrectPermissions() {
 	IfNotExist, C:\tempUserList.txt
 		IfNotExist, C:\tempAdminList.txt
+		{
 			MsgBox, You must enter the authorized Users and Admins.
 			Exit
+		}
 	gUsers =
 	(join&
 	net user Administrator /active:no
@@ -278,17 +288,17 @@ setCorrectPermissions() {
 	pUser := RTrim(pUser)
 	if (pUser != "Administrator") && (pUser != "Guest") && (pUser != "WDAGUtilityAccount") && (pUser != "DefaultAccount")
 	{
-		if (isAdmin = 0) ; if user is not a authorized admin
+		IfEqual, isAdmin, 0; if user is not a authorized admin
 		{
 		runwait, %comspec% /k net localgroup Administrators %pUser% /delete & exit
 		runwait, %comspec% /k net localgroup Users %pUser% /add & exit
 		}
-		else if (isAdmin > 0) ; if user is a authorized admin
+		else IfGreater, isAdmin, 0; if user is a authorized admin
 		{
 		runwait, %comspec% /k net localgroup Administrators %pUser% /add & exit
 		runwait, %comspec% /k net localgroup Users %pUser% /delete & exit
 		}
-		If (isUser = 0) ; if user is not an authorized user
+		IfEqual, isUser, 0 ; if user is not an authorized user
 		{
 		runwait, %comspec% /k net user %pUser% /active:no & exit
 		}
