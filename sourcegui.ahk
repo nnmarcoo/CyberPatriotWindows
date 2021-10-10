@@ -94,12 +94,11 @@ Msgbox, WARNING: very work in progress`n`nHASH:`nVery simple interface. Set Hash
 return
 
 exportHash:
-	Gui, Submit
+	Gui, Submit, NoHide
 	runwait, %comspec% /k certutil -hashfile "%hInput%" %HASH% >> C:\hashTemp.txt & exit
 	FileReadLine, hFinalOutput, C:\hashTemp.txt, 2
 	GuiControl,,hOutput,%hFinalOutput%
 	FileDelete, C:\hashTemp.txt
-	Gui,Show,
 return
 sAll:
 	findFiles()
@@ -132,7 +131,7 @@ sorReg:
 	GuiControl,,scurrP, Remote Registry On
 	runwait, %comspec% /k net start RemoteRegistry & exit
 	runwait, %comspec% /k sc config RemoteRegistry start=enabled & exit
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 return
 
 sAudit:
@@ -142,6 +141,7 @@ return
 offAudit:
 	runwait, %comspec% /k auditpol /set /category:* /success:disable & exit
 	runwait, %comspec% /k auditpol /set /category:* /failure:disable & exit
+	GuiControl,,scurrP, Done!
 return
 soRDP:
 	GuiControl,,scurrP, Enabling Remote Desktop Connection 
@@ -152,7 +152,7 @@ soRDP:
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = enable & exit
 	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=yes & exit
 	run, SystemPropertiesRemote.exe
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 return
 sFirewall:
 	Firewall()
@@ -255,7 +255,7 @@ parseREADME(Needle) { ;doesn't fucking work
 
 
 setSecurePasswords() {
-	sLoops := usersLoop()
+	sLoops := usersLoop("C:\usersTemp.txt")
 	Loop, %sLoops%
 	{
 	FileReadLine, user, C:\usersTemp.txt, 1
@@ -288,7 +288,7 @@ setCorrectPermissions() {
 	exit
 	)
 	runwait, %comspec% /k %gUsers%
-	pLoops := usersLoop()
+	pLoops := usersLoop("C:\usersTemp.txt")
 	Loop, %pLoops%
 	{
 	FileReadLine, pUser, C:\usersTemp.txt, 1
@@ -319,9 +319,9 @@ setCorrectPermissions() {
 	return
 }
 
-usersLoop() {
+usersLoop(n) {
 	Runwait, PowerShell.exe get-localuser | Select-Object Name | Out-File -FilePath C:\temp.txt | powershell -NoProfile -Command "Get-Content -Path C:\temp.txt | Select-Object -Skip 3" | Out-File -FilePath C:\usersTemp.txt | powershell Remove-Item C:\temp.txt
-	Loop, Read, C:\usersTemp.txt 
+	Loop, Read, %n% 
 	{
 	totalLines = %A_Index%
 	}
@@ -336,8 +336,9 @@ findFiles() {
 	audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
-	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter,zip
+	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter
 	excludeDir = AppData,C:\Windows,C:\Program Files,C:\CyberPatriot,ProgramData,thumbnails
+	Gui, Submit, NoHide
 	Loop Files, C:\*, FR  ; Recurse into subfolders.
 	{
 		If A_LoopFileLongPath contains %excludeDir%
@@ -349,9 +350,12 @@ findFiles() {
 		else if A_LoopFileExt in %videos%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\videos.txt
 		else if A_LoopFileName contains %htools%
+		{
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\htools.txt
-	}
-	GuiControl,,scurrP,
+			FileRecycle % A_LoopFileFullPath
+		}
+	}	
+	GuiControl,,scurrP, Done!
 }
 
 RDP() {
@@ -362,7 +366,7 @@ RDP() {
 	RegWrite, REG_DWORD, HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp, UserAuthentication, 0
 	runwait, %comspec% /k netsh advfirewall firewall set service type = remotedesktop mode = disable & exit
 	runwait, %comspec% /k netsh advfirewall firewall set rule group="remote desktop" new enable=no & exit
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 
 Host() {
@@ -372,14 +376,14 @@ Host() {
 	file := FileOpen("C:\Windows\System32\drivers\etc\hosts", "w")
 	file.close()
 	FileSetAttrib, +SR, C:\Windows\System32\drivers\etc\hosts
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 
 remReg() {
 	GuiControl,,scurrP, Remote Registry Off
 	runwait, %comspec% /k net stop RemoteRegistry & exit
 	runwait, %comspec% /k sc config RemoteRegistry start=disabled & exit
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 
 autoUpdates() {
@@ -388,12 +392,13 @@ autoUpdates() {
 	Run ms-settings:windowsupdate-action
 	WinWait, Settings
 	WinMinimize
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 
 Integrity() {
 	GuiControl,,scurrP, Scanning System Integrity (Minimize and do other shit)
 	run, %comspec% /k sfc.exe /scannow & exit
+	GuiControl,,scurrP, Done!
 }
 
 Firewall() {
@@ -412,7 +417,7 @@ Firewall() {
 	exit
 	)
 	runwait, %comspec% /k %eFirewall%
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 Reg() {
 	GuiControl,,scurrP, Editing Registry Values
@@ -475,17 +480,19 @@ Reg() {
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\winreg\AllowedExactPaths, Machine, ""
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionPipes, ""
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionShares, ""
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 audit() {
 	runwait, %comspec% /k auditpol /set /category:* /success:enable & exit
 	runwait, %comspec% /k auditpol /set /category:* /failure:enable & exit
+	GuiControl,,scurrP, Done!
 }
 
 sPwr() {
 	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_BALANCED SUB_NONE CONSOLELOCK 1 & exit
 	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MIN SUB_NONE CONSOLELOCK 1 & exit
 	runwait, %comspec% /k powercfg -SETDCVALUEINDEX SCHEME_MAX SUB_NONE CONSOLELOCK 1 & exit
+	GuiControl,,scurrP, Done!
 }
 soFeatures:
 	GuiControl,,scurrP, Enabling Features
@@ -545,7 +552,7 @@ soFeatures:
 	exit
 	)
 	runwait, %comspec% /k %oFeatures%
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 return
 
 dsblFeatures() {
@@ -606,7 +613,7 @@ dsblFeatures() {
 	exit
 	)
 	runwait, %comspec% /k %batfeats%
-	GuiControl,,scurrP,
+	GuiControl,,scurrP, Done!
 }
 
 guiClose:
