@@ -299,8 +299,15 @@ setCorrectPermissions() {
 	FileRead, rawReadme, C:\readmeTemp.txt
 	rawReadme := SubStr(rawReadme, InStr(rawReadme, "Authorized Administrators:") + 32, -1)
 	rawReadme := SubStr(rawReadme, 1, InStr(rawReadme, "</pre>")-1)
-	authorizedAdmins := SubStr(rawReadme, 1, InStr(rawReadme, "<b>") - 1)
-	
+	pauthorizedAdmins := SubStr(rawReadme, 1, InStr(rawReadme, "<b>") - 1)
+
+	keyword := "password"
+
+	authorizedAdmins := ""
+	for i, v in strsplit(pauthorizedAdmins, "`n")
+		if (!instr(v, keyword))
+			authorizedAdmins .= v "`n"
+			
 	pLoops := usersLoop("C:\usersTemp.txt")
 	Loop, %pLoops%
 	{
@@ -315,11 +322,11 @@ setCorrectPermissions() {
 	{
 		runwait, %comspec% /k net localgroup Administrators %pUser% /add & exit
 	}
-	;IfNotInString, authorizedAdmins, %pUser%  ; if user is not an authorized admin
-	;{
-	;	runwait, %comspec% /k net localgroup Administrators %pUser% /delete & exit
-	;	runwait, %comspec% /k net localgroup Users %pUser% /add & exit
-	;}
+	IfNotInString, authorizedAdmins, %pUser%  ; if user is not an authorized admin
+	{
+		runwait, %comspec% /k net localgroup Administrators %pUser% /delete & exit
+		runwait, %comspec% /k net localgroup Users %pUser% /add & exit
+	}
 	IfInString, rawReadme, %pUser% ; if user is an authorized user
 		runwait, %comspec% /k net user %pUser% /active:yes & exit
 	else ; if user is not an authorized user
