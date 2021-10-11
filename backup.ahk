@@ -106,12 +106,12 @@ sAll:
 	findFiles()
 	RDP()
 	Host()
-	pPolicy()
 	Reg()
 	remReg()
 	autoUpdates()
 	Firewall()
 	audit()
+	pPolicy()
 	dsblFeatures()
 	Integrity()
 	GuiControl,,scurrP, All Functions Executed
@@ -271,6 +271,12 @@ return
 }
 
 setCorrectPermissions() {
+	IfNotExist, C:\tempUserList.txt
+		IfNotExist, C:\tempAdminList.txt
+		{
+			MsgBox, You must enter the authorized Users and Admins.
+			Exit
+		}
 	gUsers =
 	(join&
 	net user "Administrator" /active:no
@@ -280,51 +286,33 @@ setCorrectPermissions() {
 	exit
 	)
 	runwait, %comspec% /k %gUsers%
-	
-	readme = Readme,readme,README
-	excludeDir = PerfLogs,Program Files, Program Files (x86),Users,Windows
-	Loop Files, C:\*, FR  ; Recurse into subfolders.
-	{
-		if A_LoopFileLongPath contains %excludeDir%
-			continue
-		else if A_LoopFileLongPath contains %readme%
-		{
-			readmeF = %A_LoopFileLongPath%
-			Break
-		}
-	}
-	FileRead, readme, %readmeF%
-	readme := SubStr(readme, 25, -1)
-	URLDownloadToFile, %readme%, C:\readmeTemp.txt
-	FileRead, rawReadme, C:\readmeTemp.txt
-	rawReadme := SubStr(rawReadme, InStr(rawReadme, "Authorized Administrators:") + 32, -1)
-	rawReadme := SubStr(rawReadme, 1, InStr(rawReadme, "</pre>")-1)
-	authorizedAdmins := SubStr(rawReadme, 1, InStr(rawReadme, "<b>") - 1)
-	
 	pLoops := usersLoop("C:\usersTemp.txt")
 	Loop, %pLoops%
 	{
 	FileReadLine, pUser, C:\usersTemp.txt, 1
+	FileRead, pAdmins, C:\tempAdminList.txt
+	FileRead, pUsers, C:\tempUserList.txt
+	isAdmin := InStr(pAdmins, pUser, true)
+	isUser := InStr(pUsers, pUser, true)
 	pUser := RTrim(pUser)
-	if (pUser = "Administrator" or pUser = "Guest" or pUser = "WDAGUtilityAccount" or pUser = "DefaultAccount")
+	if (pUser != "Administrator") || (pUser != "Guest") || (pUser != "WDAGUtilityAccount") || (pUser != "DefaultAccount")
 	{
-		runwait, powershell -Command "(gc C:\usersTemp.txt | select -Skip 1) | sc C:\usersTemp.txt"
-		continue
+		if pUser in %pAdmins% ; if user is an authorized admin
+		{
+			runwait, %comspec% /k net localgroup Administrators %pUser% /add & exit
+			runwait, %comspec% /k net localgroup Users %pUser% /delete & exit
+		}
+		else if pUser not in %pAdmins% ; if user is not an authorized admin
+		{
+			runwait, %comspec% /k net localgroup Administrators %pUser% /delete & exit
+			runwait, %comspec% /k net localgroup Users %pUser% /add & exit
+			runwait, %comspec% /k net user %pUser% /active:yes & exit
+		}
+		else if pUser in %pUsers% ; if user is an authorized user
+			runwait, %comspec% /k net user %pUser% /active:yes & exit
+		else ; if user is not an authorized user
+			runwait, %comspec% /k net user %pUser% /active:no & exit
 	}
-	IfInString, authorizedAdmins, %pUser% ; if user is an authorized admin
-	{
-		runwait, %comspec% /k net localgroup Administrators %pUser% /add & exit
-	}
-	;IfNotInString, authorizedAdmins, %pUser%  ; if user is not an authorized admin
-	;{
-	;	runwait, %comspec% /k net localgroup Administrators %pUser% /delete & exit
-	;	runwait, %comspec% /k net localgroup Users %pUser% /add & exit
-	;}
-	IfInString, rawReadme, %pUser% ; if user is an authorized user
-		runwait, %comspec% /k net user %pUser% /active:yes & exit
-	else ; if user is not an authorized user
-		runwait, %comspec% /k net user %pUser% /active:no & exit
-	
 	runwait, powershell -Command "(gc C:\usersTemp.txt | select -Skip 1) | sc C:\usersTemp.txt"
 	}
 	return
@@ -432,7 +420,6 @@ Firewall() {
 }
 
 pPolicy() {
-	GuiControl,,scurrP, Setting Password Policy
 	FileAppend,
 	(
 	[Unicode]
@@ -568,8 +555,6 @@ pPolicy() {
 	Sleep, 500
 	FileDelete, securitynew.jfm
 	FileDelete, securitynew.sdb
-	GuiControl,,scurrP, Done!
-	Reg()
 }
 
 Reg() {
@@ -775,5 +760,4 @@ guiClose:
 	FileDelete, C:\usersTemp.txt
 	FileDelete, C:\tempworkgroup.txt
 	FileDelete, C:\secconfig.cfg
-	FileDelete, C:\readmeTemp.txt
 	ExitApp
