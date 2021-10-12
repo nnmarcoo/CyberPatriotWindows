@@ -74,7 +74,8 @@ Gui,Add,Button, x95 y115 w70 gsFirewall, Firewall
 Gui,Add,Button, x95 y140 w50 gsAudit, Audit
 Gui,Add,Button, x145 y140 w20 goffAudit,
 Gui,Add,Button, x95 y165 w70 gsPower, Power
-Gui,Add,Button, x170 y40 w50 gspPolicy, Ppolicy
+Gui,Add,Button, x170 y40 w70 gspPolicy, Pass policy
+Gui,Add,Button, x170 y65 w70 gsPrograms, Scan Progs
 ;#######################
 Gui,Tab, ;exit the tabs
 Gui,Add,Button,x250 y215 gREADME,READ ME
@@ -120,6 +121,10 @@ return
 spPolicy:
 	pPolicy()
 return
+
+sPrograms:
+	scanPrograms()
+Return
 
 sPower:
 	sPwr()
@@ -373,6 +378,10 @@ findFiles() {
 		}
 	}
 	GuiControl,,scurrP, Done!
+}
+
+scanPrograms() {
+return
 }
 
 RDP() {
