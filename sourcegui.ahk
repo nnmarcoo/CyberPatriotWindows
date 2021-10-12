@@ -80,7 +80,7 @@ Gui,Tab, ;exit the tabs
 Gui,Add,Button,x250 y215 gREADME,READ ME
 Gui,Font, s7
 Gui,Add,Text, x5 y210, Workgroup:
-Gui,Font, s10
+Gui,Font, s9
 Gui,Add,Text, x5 y225 w200 vWorkgroup,
 runwait, %comspec% /k systeminfo | findstr /B "Domain" >> C:\tempWorkgroup.txt & exit
 FileReadLine, tWorkgroup, C:\tempWorkgroup.txt, 1
@@ -302,7 +302,6 @@ setCorrectPermissions() {
 	pauthorizedAdmins := SubStr(rawReadme, 1, InStr(rawReadme, "<b>") - 1)
 
 	keyword := "password"
-
 	authorizedAdmins := ""
 	for i, v in strsplit(pauthorizedAdmins, "`n")
 		if (!instr(v, keyword))
@@ -355,9 +354,9 @@ findFiles() {
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
 	htools = hashcat,Cain,nmap,keyloggerArmitage,Metasploit,Shellter
-	excludeDir = AppData,C:\Windows,C:\Program Files,C:\CyberPatriot,ProgramData,thumbnails
+	excludeDir = thumbnails,Appdata
 	Gui, Submit, NoHide
-	Loop Files, C:\*, FR  ; Recurse into subfolders.
+	Loop Files, C:\Users\*, FR  ; Recurse into subfolders.
 	{
 		if A_LoopFileLongPath contains %excludeDir%
 			continue
