@@ -256,10 +256,19 @@ rPerms:
 	setCorrectPermissions()
 return
 
-forensics() {
+forensics() { ;untested probably doesn't work at all lol
+	workgroup = This computer is a member of what Windows Workgroup?
+	elevation = The Windows Elevation of Privilege vulnerability identified in CVE-2021-36934  
+	cipher = The key used to encrypt the file is
 	fcount = 1
 	FileRead, forensic, %A_Desktop%\Forensics Question %fcount%.txt
 	forensic := SubStr(forensic, InStr(forensic, "=================="), -1)
+	
+	IfInString, forensic, %workgroup%
+		return
+	IfInString, forensic, %elevation%
+		return
+	IfInString, forensic, %cipher%
 }
 
 setSecurePasswords() {
