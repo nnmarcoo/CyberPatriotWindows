@@ -42,13 +42,6 @@ Gui,Add, Edit, x20 y100 w280 h100 vhOutput, Output
 ;#######################														USER TAB
 Gui,Tab, 2 ; enter tab 2 by using its position in the list of tabs
 Gui,Add, Edit, x20 y95 w280 h105 vuOutput, Output
-Gui,Add,Button, x100 y39 genterAdmins, A
-Gui,Add,Button, x120 y39 genterUsers, U
-Gui,Add,Button, x141 y39 genterUsersAndAdmins, B
-Gui,Add,Button, x165 y39 gviewAdmins, vA
-Gui,Add,Button, x189 y39 gviewUsers, vU
-Gui,Add,Button, x220 y39 guReset, Reset
-Gui,Add,Button, x267 y39 guHelp, Help
 Gui,Add,Button,x20 y65 grPass,Secure Passwords
 Gui,Add,Button,x123 y65 grPerms,Set Perms
 Gui,Add,Edit,x186 y66 w40 vnewUser
@@ -249,10 +242,6 @@ AddUserToAdmins:
 	runwait, %comspec% /k net localgroup Administrators %newUser% /add & exit
 return
 uAll: ; LITERALLY USELESS
-	IfNotExist, C:\tempUserList.txt
-			IfNotExist, C:\tempAdminList.txt
-				MsgBox, You must enter the authorized Users and Admins.
-				Exit
 	setSecurePasswords()
 	setCorrectPermissions()
 	GuiControl,,uOutput, Passwords have been secured`nCorrect permissions applied`nUnauthorized users removed
@@ -263,39 +252,6 @@ return
 rPerms:
 	setCorrectPermissions()
 return
-enterAdmins:
-	clipboard := clipboard 
-	FileAppend, %clipboard%`n, C:\tempAdminList.txt
-	FileRead, admins, C:\tempAdminList.txt
-	GuiControl,,uOutput,%admins%
-	Gui,Show,
-return
-enterUsers:
-	clipboard := clipboard 
-	FileAppend, %clipboard%`n, C:\tempUserList.txt
-	FileRead, users, C:\tempUserList.txt
-	GuiControl,,uOutput,%users%
-	Gui,Show,
-return
-enterUsersAndAdmins:
-	clipboard := clipboard 
-	FileAppend, %clipboard%`n, C:\tempUserList.txt
-	FileAppend, %clipboard%`n, C:\tempAdminList.txt
-return
-viewAdmins:
-	FileRead, admins, C:\tempAdminList.txt
-	GuiControl,,uOutput,%admins%
-	Gui,Show,
-return
-viewUsers:
-	FileRead, users, C:\tempUserList.txt
-	GuiControl,,uOutput,%users%
-	Gui,Show,
-return
-uHelp:
-	msgbox, A = Add clipboard to Admin list (this is rarely used)`nU = Add clipboard to User list`nB = Add clipboard to both lists`nvA = View Admin list`nvU = View User list`nReset = Resets values in the Admins and Users list`nCu = Create new user`nAu = Add user in small textbox to user group`nAa = Add user in small text box to admin group
-return
-
 
 setSecurePasswords() {
 	sLoops := usersLoop("C:\usersTemp.txt")
@@ -486,8 +442,8 @@ autoUpdates() {
 }
 
 Integrity() {
-	GuiControl,,scurrP, Scanning System Integrity (Minimize and do other shit)
-	runwait, %comspec% /k sfc.exe /scannow & exit
+	GuiControl,,scurrP, Scanning System Integrity
+	runwait, %comspec% /k sfc.exe /scannow
 	GuiControl,,scurrP, Done!
 }
 
