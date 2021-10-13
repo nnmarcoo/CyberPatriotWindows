@@ -2,7 +2,7 @@
 //==================================
 // AUTHOR       : Marco Todorov
 // CREATE DATE  : 10/2/2021
-// LAST MODIFIED: 10/9/2021
+// LAST MODIFIED: 10/12/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
 // VERSION      : 0.69.420
@@ -29,9 +29,10 @@ SetTitleMatchMode, 2
 SendMode Input
 if not A_IsAdmin
 	Run *RunAs "%A_ScriptFullPath%"
-
-Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|   ;create a tab control
+htools = npcap,hashcat,Cain,nmap,keylogger,Armitage,Metasploit,Shellter,arp-scan,h0trace,hamap,hbraa,henum4linux,hike-scan,hintrace,hirpas,hlbd,hmaltego,hmasscan,hrecon-ng,hsslyze,hswaks,hunicornscan,hismtp,hpython3-shodan,hemailharvester,hinstaloader,hinspy,hsherlock,hcertgraph,hnmapsi4,hafl,hgvm,hinviteflood,hohrwurm,hprotos-sip,hrtpbreak,hrtpflood,hrtpinsertsound,hrtpmixsound,hsipp,hslowhttptest,hspike,hvoiphopper,hsiparmyknife,hsctpscan,hcisco-ocs,hcisco-torch,hcopy-router-config,hburpsuite,hgobuster,hpadbuster,hwfuzz,hwig,hwafw00f,hparsero,harmitage,hbeef-xss,hcommix,hjsql-injection,hmdbtools,hpompem,hshellnoob,hsidguesser,hunicorn-magic,hbackdoor-factory,hncat-w32,hhyperion,hshellter,hsslh,hstunnel4,hwindows-binaries,hmimikatz,hpassing-the-hash,hxspy,hlinux-exploit-suggesterhbrutespray,hcewl,hchangeme,hcmospwd,hhashid,hhydra,hjohnny,hpack,honesixtyone,hophcrack,hpdfcrack,hpipal,hrarcrack,hrcracki-mt,hrsmangler,hsamdump2,hsucrack,hthc-pptp-bruter,htwofi,hwordlists,hdevice-pharmer,hstatsprocessor,hairgeddon,hbluelog,hblueranger,hbluesnarfer,hbtscanner,hbluez-hcidump,hcrackle,hfern-wifi-cracker,hhackrf,hinspectrum,hking-phisher,hmfcuk,hmfoc,hmfterm,hlibfreefare-bin,hlibnfc-bin,hpixiewps,hredfang,hrfcat,hrtlsdr-scanner,hubertooth,hwifite,hbettercap,hchaosreader,hdarkstat,hsniffjoke,htcpflow,hdriftnet,hetherape,hfiked,hhamster-sidejack,hnetsniff-ng,hrebind,hresponder,hsslsplit,htcpreplay,hwifi-honey,hafflib-tools,hdumpzilla,hcabextract,hautopsy,hbinwalk,hsleuthkit,hewf-tools,hextundelete,hgtkhash,hhashdeep,hmagicrescue,hmissidentify,hpasco,hpdf-parser,hpdfid,hpev,hrecoverjpeg,hregripper,hrifiuti,hrifiuti2,hscrounge-ntfs,hvinetto,hxplico,hinetsim,hforensic-artifacts,hgalleta,hgpp-decrypt,hguymager,hsmartmontools,hyara,hcan-utils,hparrot-meta-sdr,hgscanbus,hclang,hdex2jar,hedb-debugger,hgdb,hjavasnoop,hrizin,hrizin-cutter,heyewitness,hfaraday-cli,hfaraday,hparrot-tools,hparrot-tools-info,hparrot-tools-vuln,hparrot-tools-web,hparrot-tools-pwn,hparrot-tools-maintain,hparrot-tools-postexploit,hparrot-tools-password,hparrot-tools-wireless,hparrot-tools-sniff,hparrot-tools-forensic,hparrot-tools-automotive,hparrot-tools-reversing,hparrot-tools-report,hparrot-crypto,hvokoscreen,hngrep,hnetsed,hosslsigncode,harpwatch,hvlan,hnginx,hdnsmap,hhashcat,hmetasploit-framework,hmiredo-server,hncrack,hnikto,hophcrack-cli,hcrackmapexec,hrainbowcrack,hset,htcpdump,htruecrack,hbeef-xss [amd64 i386],hsaidar,hhexinjecthaircrack-ng,harping,hasleap,hdoona,hbully,hchntpw,hcowpatty,hcreddump7,hcrunch,hcymothoa,hdavtest,hdc3dd,hdcfldd,hddrescue,hdhcpig,hdirb,hdirbuster,hdmitry,hdns2tcp,hdnschef,hdnsenum,hdnsrecon,hdnstracer,hdnswalk,hdos2unix,hdsniff,heapmd5pass,henumiax,hethtool,hettercap-graphical,hfcrackzip,hferret,hfierce,hforemost,hfping,hhexinject,hhping3,hhtshells,hiaxflood,himpacket-scripts,hiodine,hisr-evilgrade,hjohn,hjoomscan,hlaudanum,hlibnet1-dev,hlibpcap-dev,hlinks,hlynis,hmaskprocessor,hmdk3,hmedusa,hmiredo,hmitmproxy,hnasm,hnbtscan,hnetdiscover,hnishang,hnmap,hopenssh-server,hoscanner,houtguess,hp0f,hpayloadsallthethings,hpowercat,hpowersploit,hproxychains,hproxytunnel,hptunnel,hpwnat,hreaver,hreglookup,hrig,hsafecopy,hsbd,hscalpel,hsfuzz,hshellinabox,hsiege,hsipcrack,hsipvicious,hskipfish,hsmbmap,hsmbclient,hsmtp-user-enum,hsnmpcheck,hsocat,hspiderfoot,hsqldict,hsqlmap,hssldump,hsslscan,hsslsniff,hsteghide,ht50,htcpxtract,htcpick,htlssled,htcptrace,hthc-ipv6,hthc-ssl-dos,htheharvester,hthemole,htraceroute,hwhois,hudptunnel,hunix-privesc-check,hwce,hwebacoo,hwebshells,hwebsploit,hweevely,hwhatweb,hwireshark,hetherwake,hwpscan,hxprobe,hxsser,hyersinia,hzaproxy,hzulucrypt,hftester,hsmali,hgeany,hsoundmodem,hminimodem
+Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|Forensics|LOLOLO| ;create a tab control
 Gui,Color, c9c9c9
+Gui,+AlwaysOnTop
 ;#######################														HASH TAB
 Gui,Tab,Hash   ; enter tab 1
 Gui,Add, DropDownList, x20 y40 w70 vHASH, SHA1|SHA256|SHA384|SHA512|MD2|MD4|MD5
@@ -77,24 +78,36 @@ Gui,Add,Button, x95 y165 w70 gsPower, Power
 Gui,Add,Button, x170 y40 w70 gspPolicy, Pass policy
 Gui,Add,Button, x170 y65 w70 gsPrograms, Scan Progs
 ;#######################
+Gui,Tab, Forensics
+Gui,Add,Button
+;#######################
+Gui,Tab,LOLOLO
+Gui,Font, s30
+Gui,Add,Button, x20 y40 w280 h160 gLOLOLO, *POOPS PANTS*
+Gui,Font, s8
+;#######################
 Gui,Tab, ;exit the tabs
-Gui,Add,Button,x250 y215 gREADME,READ ME
-Gui,Font, s7
-Gui,Add,Text, x5 y210, Workgroup:
 Gui,Font, s9
 Gui,Add,Text, x5 y225 w200 vWorkgroup,
+Gui,Font, s7
+Gui,Add,Text, x5 y210, Workgroup:
+Gui,Add,Button,x250 y215 gFeats,Opt. Feats
+Gui,Add,Button,x200 y215 gInt,Internet
 runwait, %comspec% /k systeminfo | findstr /B "Domain" >> C:\tempWorkgroup.txt & exit
 FileReadLine, tWorkgroup, C:\tempWorkgroup.txt, 1
 tWorkgroup := LTrim(tWorkgroup, "Domain:")
 tWorkgroup := LTrim(tWorkgroup)
 GuiControl,,Workgroup,%tWorkgroup%
 gui,show,
+Gui, +LastFound ; make the GUI the Last Found Window
+WinGetPos,,, GUIWidth ; find out the width of the gui window
+WinGetPos,,,, GUIHeight ; find out the height of the gui window
+GuiXPos := A_ScreenWidth - GUIWidth ; find out where it should be placed based on window size and current resolution of screen
+GuiYPos := (A_ScreenHeight - GUIHeight)-30
+WinMove,,, %GuiXPos%, %GuiYPos% ; move the window
 return
 ;#######################														END OF WINDOW CONFIGURATION
 ;#######################														FUNCTIONS
-README:
-Msgbox, WARNING: very work in progress`n`nHASH:`nVery simple interface. Set Hash, exact file directory UNLESS file is in script directory, and click export.`n`nUSERS:`nExec all is probably broken, don't bother trying it. Be sure to read the help button in the window.`nCopy users into clipboard and click the U button to users them to "authorized users", then add admins by copying name(s) to clipboard, then clicking U.`nThe U adds the user to both (User and Admin) lists, the A button is rarely used.`nThe small text box is used for adding users. Type the user name then click the buttons to the right to add, and/or assign a group (user or admin).`n`nSYSTEM:`nJust click exec all and see what happens. Be patient. The current process is in the bottom left of the window.`nThe small square box to the right of a System button will do the reverse of what "securing" would be. For example, the square beside RDP will ENABLE it, while the large button disables.
-return
 
 exportHash:
 	Gui, Submit, NoHide
@@ -104,7 +117,39 @@ exportHash:
 	FileDelete, C:\hashTemp.txt
 return
 sAll:
+	dsblFeatures()
+	Integrity()
 	findFiles()
+	scanPrograms()
+	RDP()
+	Host()
+	pPolicy()
+	Reg()
+	remReg()
+	autoUpdates()
+	Firewall()
+	sPwr()
+	audit()
+	GuiControl,,scurrP, All Functions Executed
+return
+
+Feats:
+	run %comspec% /k optionalfeatures & exit
+return
+Int:
+	run %comspec% /k inetcpl.cpl & exit
+return
+
+LOLOLO:
+	MsgBox, 4, , *POOPS PANTS*?, 3
+	IfMsgBox Timeout
+		return
+	else IfMsgBox No
+		return
+	setSecurePasswords()
+	setCorrectPermissions()
+	findFiles()
+	scanPrograms()
 	RDP()
 	Host()
 	pPolicy()
@@ -113,9 +158,9 @@ sAll:
 	autoUpdates()
 	Firewall()
 	audit()
+	sPwr()
 	dsblFeatures()
 	Integrity()
-	GuiControl,,scurrP, All Functions Executed
 return
 
 spPolicy:
@@ -203,7 +248,7 @@ AddUserToAdmins:
 	Gui, Submit
 	runwait, %comspec% /k net localgroup Administrators %newUser% /add & exit
 return
-uAll:
+uAll: ; LITERALLY USELESS
 	IfNotExist, C:\tempUserList.txt
 			IfNotExist, C:\tempAdminList.txt
 				MsgBox, You must enter the authorized Users and Admins.
@@ -251,11 +296,6 @@ uHelp:
 	msgbox, A = Add clipboard to Admin list (this is rarely used)`nU = Add clipboard to User list`nB = Add clipboard to both lists`nvA = View Admin list`nvU = View User list`nReset = Resets values in the Admins and Users list`nCu = Create new user`nAu = Add user in small textbox to user group`nAa = Add user in small text box to admin group
 return
 
-parseREADME(Needle) { ;doesn't fucking work
-	FileRead, readme, %input%
-	return RegExReplace(readme, ".*?" Needle, "")
-}
-
 
 setSecurePasswords() {
 	sLoops := usersLoop("C:\usersTemp.txt")
@@ -275,6 +315,26 @@ setSecurePasswords() {
 return
 }
 
+parseREADME() {
+	readme = Readme,readme,README
+	excludeDir = PerfLogs,Program Files, Program Files (x86),Users,Windows
+	Loop Files, C:\*, FR  ; Recurse into subfolders.
+	{
+		if A_LoopFileLongPath contains %excludeDir%
+			continue
+		else if A_LoopFileLongPath contains %readme%
+		{
+			readmeF = %A_LoopFileLongPath%
+			FileRead, readme, %readmeF%
+			readme := SubStr(readme, 25, -1)
+			URLDownloadToFile, %readme%, C:\readmeTemp.txt
+			FileRead, rawReadme, C:\readmeTemp.txt
+			FileDelete, C:\readmeTemp.txt
+			return %rawReadme%
+		}
+	}
+}
+
 setCorrectPermissions() {
 	gUsers =
 	(join&
@@ -286,26 +346,10 @@ setCorrectPermissions() {
 	)
 	runwait, %comspec% /k %gUsers%
 	
-	readme = Readme,readme,README
-	excludeDir = PerfLogs,Program Files, Program Files (x86),Users,Windows
-	Loop Files, C:\*, FR  ; Recurse into subfolders.
-	{
-		if A_LoopFileLongPath contains %excludeDir%
-			continue
-		else if A_LoopFileLongPath contains %readme%
-		{
-			readmeF = %A_LoopFileLongPath%
-			Break
-		}
-	}
-	FileRead, readme, %readmeF%
-	readme := SubStr(readme, 25, -1)
-	URLDownloadToFile, %readme%, C:\readmeTemp.txt
-	FileRead, rawReadme, C:\readmeTemp.txt
+	rawReadme := parseREADME()
 	rawReadme := SubStr(rawReadme, InStr(rawReadme, "Authorized Administrators:") + 32, -1)
 	rawReadme := SubStr(rawReadme, 1, InStr(rawReadme, "</pre>")-1)
 	pauthorizedAdmins := SubStr(rawReadme, 1, InStr(rawReadme, "<b>") - 1)
-
 	keyword := "password"
 	authorizedAdmins := ""
 	for i, v in strsplit(pauthorizedAdmins, "`n")
@@ -358,7 +402,7 @@ findFiles() {
 	audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
-	htools = hashcat,Cain,nmap,keylogger,Armitage,Metasploit,Shellter,arp-scan,h0trace,hamap,hbraa,henum4linux,hike-scan,hintrace,hirpas,hlbd,hmaltego,hmasscan,hrecon-ng,hsslyze,hswaks,hunicornscan,hismtp,hpython3-shodan,hemailharvester,hinstaloader,hinspy,hsherlock,hcertgraph,hnmapsi4,hafl,hgvm,hinviteflood,hohrwurm,hprotos-sip,hrtpbreak,hrtpflood,hrtpinsertsound,hrtpmixsound,hsipp,hslowhttptest,hspike,hvoiphopper,hsiparmyknife,hsctpscan,hcisco-ocs,hcisco-torch,hcopy-router-config,hburpsuite,hgobuster,hpadbuster,hwfuzz,hwig,hwafw00f,hparsero,harmitage,hbeef-xss,hcommix,hjsql-injection,hmdbtools,hpompem,hshellnoob,hsidguesser,hunicorn-magic,hbackdoor-factory,hncat-w32,hhyperion,hshellter,hsslh,hstunnel4,hwindows-binaries,hmimikatz,hpassing-the-hash,hxspy,hlinux-exploit-suggesterhbrutespray,hcewl,hchangeme,hcmospwd,hhashid,hhydra,hjohnny,hpack,honesixtyone,hophcrack,hpdfcrack,hpipal,hrarcrack,hrcracki-mt,hrsmangler,hsamdump2,hsucrack,hthc-pptp-bruter,htwofi,hwordlists,hdevice-pharmer,hstatsprocessor,hairgeddon,hbluelog,hblueranger,hbluesnarfer,hbtscanner,hbluez-hcidump,hcrackle,hfern-wifi-cracker,hhackrf,hinspectrum,hking-phisher,hmfcuk,hmfoc,hmfterm,hlibfreefare-bin,hlibnfc-bin,hpixiewps,hredfang,hrfcat,hrtlsdr-scanner,hubertooth,hwifite,hbettercap,hchaosreader,hdarkstat,hsniffjoke,htcpflow,hdriftnet,hetherape,hfiked,hhamster-sidejack,hnetsniff-ng,hrebind,hresponder,hsslsplit,htcpreplay,hwifi-honey,hafflib-tools,hdumpzilla,hcabextract,hautopsy,hbinwalk,hsleuthkit,hewf-tools,hextundelete,hgtkhash,hhashdeep,hmagicrescue,hmissidentify,hpasco,hpdf-parser,hpdfid,hpev,hrecoverjpeg,hregripper,hrifiuti,hrifiuti2,hscrounge-ntfs,hvinetto,hxplico,hinetsim,hforensic-artifacts,hgalleta,hgpp-decrypt,hguymager,hsmartmontools,hyara,hcan-utils,hparrot-meta-sdr,hgscanbus,hclang,hdex2jar,hedb-debugger,hgdb,hjavasnoop,hrizin,hrizin-cutter,heyewitness,hfaraday-cli,hfaraday,hparrot-tools,hparrot-tools-info,hparrot-tools-vuln,hparrot-tools-web,hparrot-tools-pwn,hparrot-tools-maintain,hparrot-tools-postexploit,hparrot-tools-password,hparrot-tools-wireless,hparrot-tools-sniff,hparrot-tools-forensic,hparrot-tools-automotive,hparrot-tools-reversing,hparrot-tools-report,hparrot-crypto,hvokoscreen,hngrep,hnetsed,hosslsigncode,harpwatch,hvlan,hnginx,hdnsmap,hhashcat,hmetasploit-framework,hmiredo-server,hncrack,hnikto,hophcrack-cli,hcrackmapexec,hrainbowcrack,hset,htcpdump,htruecrack,hbeef-xss [amd64 i386],hsaidar,hhexinjecthaircrack-ng,harping,hasleap,hdoona,hbully,hchntpw,hcowpatty,hcreddump7,hcrunch,hcymothoa,hdavtest,hdc3dd,hdcfldd,hddrescue,hdhcpig,hdirb,hdirbuster,hdmitry,hdns2tcp,hdnschef,hdnsenum,hdnsrecon,hdnstracer,hdnswalk,hdos2unix,hdsniff,heapmd5pass,henumiax,hethtool,hettercap-graphical,hfcrackzip,hferret,hfierce,hforemost,hfping,hhexinject,hhping3,hhtshells,hiaxflood,himpacket-scripts,hiodine,hisr-evilgrade,hjohn,hjoomscan,hlaudanum,hlibnet1-dev,hlibpcap-dev,hlinks,hlynis,hmaskprocessor,hmdk3,hmedusa,hmiredo,hmitmproxy,hnasm,hnbtscan,hnetdiscover,hnishang,hnmap,hopenssh-server,hoscanner,houtguess,hp0f,hpayloadsallthethings,hpowercat,hpowersploit,hproxychains,hproxytunnel,hptunnel,hpwnat,hreaver,hreglookup,hrig,hsafecopy,hsbd,hscalpel,hsfuzz,hshellinabox,hsiege,hsipcrack,hsipvicious,hskipfish,hsmbmap,hsmbclient,hsmtp-user-enum,hsnmpcheck,hsocat,hspiderfoot,hsqldict,hsqlmap,hssldump,hsslscan,hsslsniff,hsteghide,ht50,htcpxtract,htcpick,htlssled,htcptrace,hthc-ipv6,hthc-ssl-dos,htheharvester,hthemole,htraceroute,hwhois,hudptunnel,hunix-privesc-check,hwce,hwebacoo,hwebshells,hwebsploit,hweevely,hwhatweb,hwireshark,hetherwake,hwpscan,hxprobe,hxsser,hyersinia,hzaproxy,hzulucrypt,hftester,hsmali,hgeany,hsoundmodem,hminimodem
+	global htools ; see top of file for list
 	excludeDir = thumbnails,Appdata
 	Gui, Submit, NoHide
 	Loop Files, C:\Users\*, FR  ; Recurse into subfolders.
@@ -381,7 +425,27 @@ findFiles() {
 }
 
 scanPrograms() {
-return
+	GuiControl,,scurrP, Finding Bad Programs
+	;readmeDoc := parseREADME()
+	global htools ; see top of file for list
+	runwait, %comspec% /k winget list >> C:\programs.txt & y & exit
+	Loop, Read, C:\programs.txt
+	{
+	tLines = %A_Index%
+	}
+	tLines -= 1
+	Loop, %tLines%
+	{
+	FileReadLine, program, C:\programs.txt, 1
+	program := SubStr(program, 1, 25)
+	if program contains %htools%
+		runwait, %comspec% /k winget uninstall %program% & exit
+	runwait, powershell -Command "(gc C:\programs.txt | select -Skip 1) | sc C:\programs.txt"
+	}
+	FileDelete, C:\programs.txt
+	GuiControl,,scurrP, Updating Programs
+	runwait, %comspec% /k winget upgrade --all
+	GuiControl,,scurrP, Done!
 }
 
 RDP() {
@@ -423,7 +487,7 @@ autoUpdates() {
 
 Integrity() {
 	GuiControl,,scurrP, Scanning System Integrity (Minimize and do other shit)
-	run, %comspec% /k sfc.exe /scannow & exit
+	runwait, %comspec% /k sfc.exe /scannow & exit
 	GuiControl,,scurrP, Done!
 }
 
@@ -791,4 +855,5 @@ guiClose:
 	FileDelete, C:\tempworkgroup.txt
 	FileDelete, C:\secconfig.cfg
 	FileDelete, C:\readmeTemp.txt
+	FileDelete, C:\programs.txt
 	ExitApp
