@@ -269,6 +269,7 @@ forensics() { ;untested probably doesn't work at all lol
 	IfInString, forensic, %elevation%
 		return
 	IfInString, forensic, %cipher%
+		return
 }
 
 setSecurePasswords() {
