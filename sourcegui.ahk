@@ -72,7 +72,7 @@ Gui,Add,Button, x170 y40 w70 gspPolicy, Pass policy
 Gui,Add,Button, x170 y65 w70 gsPrograms, Scan Progs
 ;#######################
 Gui,Tab, Forensics
-Gui,Add,Button
+Gui,Add,Button, x20 y40 w70 gaForensics, Attempt Forensics
 ;#######################
 Gui,Tab,LOLOLO
 Gui,Font, s30
@@ -131,6 +131,9 @@ Feats:
 return
 Int:
 	run %comspec% /k inetcpl.cpl & exit
+return
+aForensics:
+	forensics()
 return
 
 LOLOLO:
@@ -252,6 +255,12 @@ return
 rPerms:
 	setCorrectPermissions()
 return
+
+forensics() {
+	fcount = 1
+	FileRead, forensic, %A_Desktop%\Forensics Question %fcount%.txt
+	forensic := SubStr(forensic, InStr(forensic, "=================="), -1)
+}
 
 setSecurePasswords() {
 	sLoops := usersLoop("C:\usersTemp.txt")
