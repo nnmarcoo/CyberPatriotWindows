@@ -111,9 +111,9 @@ exportHash:
 	FileDelete, C:\hashTemp.txt
 return
 sAll:
-	dsblFeatures()
 	Integrity()
 	findFiles()
+	dsblFeatures()
 	scanPrograms()
 	RDP()
 	Host()
@@ -146,6 +146,7 @@ LOLOLO:
 	setSecurePasswords()
 	setCorrectPermissions()
 	findFiles()
+	dsblFeatures()
 	scanPrograms()
 	RDP()
 	Host()
@@ -156,7 +157,6 @@ LOLOLO:
 	Firewall()
 	audit()
 	sPwr()
-	dsblFeatures()
 	Integrity()
 return
 
