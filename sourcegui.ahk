@@ -426,7 +426,8 @@ scanPrograms() {
 	GuiControl,,scurrP, Finding Bad Programs
 	;readmeDoc := parseREADME()
 	global htools ; see top of file for list
-	runwait, %comspec% /k winget list >> C:\programs.txt & y & exit
+	runwait, %comspec% /k winget list >> C:\programs.txt & exit
+	runwait, powershell -Command "(gc C:\programs.txt | select -Skip 55) | sc C:\programs.txt"
 	Loop, Read, C:\programs.txt
 	{
 	tLines = %A_Index%
