@@ -33,6 +33,7 @@ htools = npcap,hashcat,Cain,nmap,keylogger,Armitage,Metasploit,Shellter,arp-scan
 Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|Forensics|Auto| ;create a tab control
 Gui,Color, c9c9c9
 Gui,+AlwaysOnTop
+;Gui +Resize
 ;#######################														HASH TAB
 Gui,Tab,Hash   ; enter tab 1
 Gui,Add, DropDownList, x20 y40 w70 vHASH, SHA1|SHA256|SHA384|SHA512|MD2|MD4|MD5
@@ -76,7 +77,7 @@ Gui,Add,Button, x20 y40 w70 gaForensics, Attempt Forensics
 ;#######################
 Gui,Tab,Auto
 Gui,Font, s30
-Gui,Add,Button, x20 y40 w280 h160 gLOLOLO, *POOPS PANTS*
+Gui,Add,Button, x20 y40 w280 h160 gLOLOLO, BRUH
 Gui,Font, s8
 ;#######################
 Gui,Tab, ;exit the tabs
@@ -84,8 +85,9 @@ Gui,Font, s9
 Gui,Add,Text, x5 y225 w200 vWorkgroup,
 Gui,Font, s7
 Gui,Add,Text, x5 y210, Workgroup:
-Gui,Add,Button,x250 y215 gFeats,Opt. Feats
-Gui,Add,Button,x200 y215 gInt,Internet
+Gui,Add,Button,x260 y215 gFeats,Opt. Feats
+Gui,Add,Button,x220 y215 gInt,Internet
+Gui,Add,Button,x190 y215 gmmc,mmc
 Gui,Add,Link,x160 y215,<a href="https://cryptii.com/">Cryptii</a>
 runwait, %comspec% /k systeminfo | findstr /B "Domain" >> C:\tempWorkgroup.txt & exit
 FileReadLine, tWorkgroup, C:\tempWorkgroup.txt, 1
@@ -97,12 +99,15 @@ Gui, +LastFound ; make the GUI the Last Found Window
 WinGetPos,,, GUIWidth ; find out the width of the gui window
 WinGetPos,,,, GUIHeight ; find out the height of the gui window
 GuiXPos := A_ScreenWidth - GUIWidth ; find out where it should be placed based on window size and current resolution of screen
-GuiYPos := (A_ScreenHeight - GUIHeight)-30
+GuiYPos := (A_ScreenHeight - GUIHeight)-50
 WinMove,,, %GuiXPos%, %GuiYPos% ; move the window
 return
 ;#######################														END OF WINDOW CONFIGURATION
 ;#######################														FUNCTIONS
 
+mmc:
+run %comspec% /k mmc & exit,,hide
+return
 exportHash:
 	Gui, Submit, NoHide
 	runwait, %comspec% /k certutil -hashfile "%hInput%" %HASH% >> C:\hashTemp.txt & exit
@@ -138,7 +143,7 @@ aForensics:
 return
 
 LOLOLO:
-	MsgBox, 4, , *POOPS PANTS*?, 3
+	MsgBox, 4, , BRUH?, 3
 	IfMsgBox Timeout
 		return
 	else IfMsgBox No
