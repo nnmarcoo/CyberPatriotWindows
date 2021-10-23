@@ -463,8 +463,8 @@ scanPrograms() {
 	runwait, powershell -Command "(gc C:\programs.txt | select -Skip 1) | sc C:\programs.txt"
 	}
 	FileDelete, C:\programs.txt
-	GuiControl,,scurrP, Updating Programs
-	runwait, %comspec% /k winget upgrade --all
+	;GuiControl,,scurrP, Updating Programs
+	;runwait, %comspec% /k winget upgrade --all
 	GuiControl,,scurrP, Done!
 }
 
