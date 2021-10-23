@@ -42,7 +42,9 @@ Gui,Add, Button, x19 y70 w281 gexportHash, Export
 Gui,Add, Edit, x20 y100 w280 h100 vhOutput, Output
 ;#######################														USER TAB
 Gui,Tab, 2 ; enter tab 2 by using its position in the list of tabs
-Gui,Add, Edit, x20 y95 w280 h105 vuOutput, Output
+Gui,Add, Edit, x20 y165 w280 h40 vuOutput, Output
+Gui,Add, Edit, x20 y95 w135 h65 vuAdmins, Admins
+Gui,Add, Edit, x165 y95 w135 h65 vuUsers, Users
 Gui,Add,Button,x20 y65 grPass,Secure Passwords
 Gui,Add,Button,x123 y65 grPerms,Set Perms
 Gui,Add,Edit,x186 y66 w40 vnewUser
@@ -50,6 +52,7 @@ Gui,Add,Button,x230 y65 gCreateUser, Cu
 Gui,Add,Button,x255 y65 gAddUserToUsers, Au
 Gui,Add,Button,x280 y65 gAddUserToAdmins, Aa
 Gui,Add,Button, x20 y40 w70 guAll, Exec All
+Gui,Add,Checkbox, x95 y45 vuManual, m
 ;#######################														SYSTEM TAB
 Gui,Tab, System ; enter tab 3
 Gui,Add,text,x15 y190 w200 vscurrP,
@@ -149,7 +152,7 @@ LOLOLO:
 	else IfMsgBox No
 		return
 	setSecurePasswords()
-	setCorrectPermissions()
+	setCorrectPermissions(uAdmins, uUsers, uManual)
 	findFiles()
 	dsblFeatures()
 	scanPrograms()
@@ -237,29 +240,30 @@ uReset:
 	GuiControl,,uOutput, User list and Admin list cleared
 return
 CreateUser:
-	Gui, Submit
+	Gui, Submit, NoHide
 	s := SubStr(newUser,1,1)"ABCxyz" . 0 . Chr(0x0021)
 	StringLen, l, newUser
 	runwait, %comspec% /k net user %newUser% %s%%l% /add & exit
 return
 AddUserToUsers:
-	Gui, Submit
+	Gui, Submit, NoHide
 	runwait, %comspec% /k net localgroup Users %newUser% /add & exit
 return
 AddUserToAdmins:
-	Gui, Submit
+	Gui, Submit, NoHide
 	runwait, %comspec% /k net localgroup Administrators %newUser% /add & exit
 return
 uAll: ; LITERALLY USELESS
 	setSecurePasswords()
-	setCorrectPermissions()
+	setCorrectPermissions(uAdmins, uUsers, uManual)
 	GuiControl,,uOutput, Passwords have been secured`nCorrect permissions applied`nUnauthorized users removed
 return
 rPass:
 	setSecurePasswords()
 return
 rPerms:
-	setCorrectPermissions()
+	Gui, Submit, NoHide
+	setCorrectPermissions(uAdmins, uUsers, uManual)
 return
 
 forensics() { ;untested probably doesn't work at all lol
@@ -336,9 +340,12 @@ parseREADME() {
 			return %rawReadme%
 		}
 	}
+	GuiControl,,uOutput,README not found.
+	msgbox, CANNOT FIND README!
+	exit
 }
 
-setCorrectPermissions() {
+setCorrectPermissions(a, u, m) {
 	gUsers =
 	(join&
 	net user "Administrator" /active:no
@@ -349,6 +356,9 @@ setCorrectPermissions() {
 	)
 	runwait, %comspec% /k %gUsers%
 	
+	if m = 0
+	{
+	GuiControl,,uOutput,PARSING THE README
 	rawReadme := parseREADME()
 	rawReadme := SubStr(rawReadme, InStr(rawReadme, "Authorized Administrators:") + 32, -1)
 	rawReadme := SubStr(rawReadme, 1, InStr(rawReadme, "</pre>")-1)
@@ -358,7 +368,13 @@ setCorrectPermissions() {
 	for i, v in strsplit(pauthorizedAdmins, "`n")
 		if (!instr(v, keyword))
 			authorizedAdmins .= v "`n"
-			
+	}
+	else
+	{
+	authorizedAdmins := a
+	rawReadme := u
+	}
+	
 	pLoops := usersLoop("C:\usersTemp.txt")
 	Loop, %pLoops%
 	{
