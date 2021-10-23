@@ -335,6 +335,12 @@ parseREADME() {
 			FileRead, readme, %readmeF%
 			readme := SubStr(readme, 25, -1)
 			URLDownloadToFile, %readme%, C:\readmeTemp.txt
+			If ErrorLevel
+			{
+			GuiControl,,uOutput,README not found.
+			msgbox, CANNOT FIND README!
+			exit
+			}
 			FileRead, rawReadme, C:\readmeTemp.txt
 			FileDelete, C:\readmeTemp.txt
 			return %rawReadme%
