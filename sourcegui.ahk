@@ -738,6 +738,9 @@ Reg() {
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\winreg\AllowedExactPaths, Machine, ""
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionPipes, ""
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionShares, ""
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\System, EnableSmartScreen, 1 ;
+	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer, NoDriveTypeAutoRun, 255 ;
+	RegWrite, REG_DWORD, HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management, ClearPageFileAtShutdown, 1 ;
 	GuiControl,,scurrP, Done!
 }
 audit() {
