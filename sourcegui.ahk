@@ -427,6 +427,7 @@ findFiles() {
 	audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
+	txt := "txt,odp,ppt,pptx,rtf,odt,doc,docx"
 	global htools ; see top of file for list
 	excludeDir = thumbnails,Appdata
 	Gui, Submit, NoHide
@@ -440,6 +441,8 @@ findFiles() {
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\audio.txt
 		else if A_LoopFileExt in %videos%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\videos.txt
+		else if A_LoopFIleExt in %txt%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\text.txt
 		else if A_LoopFileName contains %htools%
 		{
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\htools.txt
@@ -678,6 +681,14 @@ pPolicy() {
 }
 
 Reg() {
+	bat =
+	(join&
+	Set-Service -Name "NetTcpPortSharing" -Status stopped -StartupType disabled
+	Set-Service -Name "Dhcp" -Status stopped -StartupType disabled
+	Set-Service -Name "mpssvc" -Status running -StartupType automatic
+	exit
+	)
+	runwait %comspec% /k %bat%
 	GuiControl,,scurrP, Editing Registry Values
 	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 ; Enable UAC
 	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU, AutoInstallMinorUpdates, 1 ; Install Minor Updates
