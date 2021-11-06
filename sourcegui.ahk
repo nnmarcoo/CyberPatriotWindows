@@ -2,22 +2,15 @@
 //==================================
 // AUTHOR       : Marco Todorov
 // CREATE DATE  : 10/2/2021
-// LAST MODIFIED: 10/12/2021
+// LAST MODIFIED: 11/06/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
 // VERSION      : 0.69.420
 // ===============================
 // TODO:
-// Add Windows Defender settings
-// Continue reg edit to sys tab
-// Add system integrety scan in sys tab
-// Set password requirements
-// TOGGLE REMOTE DESKTOP
-// Rename admin? rename guest?
+// Continue reg edit and services
+// Rename admin? rename guest? ????????
 // group policy is allowing modifications to the firewall
-// Password policy
-// AUDITING
-// user rights?
 // so many registry keys bruh
 //==================================
 */
