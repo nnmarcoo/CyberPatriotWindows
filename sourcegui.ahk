@@ -23,7 +23,7 @@ SendMode Input
 if not A_IsAdmin
 	Run *RunAs "%A_ScriptFullPath%"
 htools = npcap,hashcat,Cain,nmap,keylogger,Armitage,Metasploit,Shellter,arp-scan,h0trace,hamap,hbraa,henum4linux,hike-scan,hintrace,hirpas,hlbd,hmaltego,hmasscan,hrecon-ng,hsslyze,hswaks,hunicornscan,hismtp,hpython3-shodan,hemailharvester,hinstaloader,hinspy,hsherlock,hcertgraph,hnmapsi4,hafl,hgvm,hinviteflood,hohrwurm,hprotos-sip,hrtpbreak,hrtpflood,hrtpinsertsound,hrtpmixsound,hsipp,hslowhttptest,hspike,hvoiphopper,hsiparmyknife,hsctpscan,hcisco-ocs,hcisco-torch,hcopy-router-config,hburpsuite,hgobuster,hpadbuster,hwfuzz,hwig,hwafw00f,hparsero,harmitage,hbeef-xss,hcommix,hjsql-injection,hmdbtools,hpompem,hshellnoob,hsidguesser,hunicorn-magic,hbackdoor-factory,hncat-w32,hhyperion,hshellter,hsslh,hstunnel4,hwindows-binaries,hmimikatz,hpassing-the-hash,hxspy,hlinux-exploit-suggesterhbrutespray,hcewl,hchangeme,hcmospwd,hhashid,hhydra,hjohnny,hpack,honesixtyone,hophcrack,hpdfcrack,hpipal,hrarcrack,hrcracki-mt,hrsmangler,hsamdump2,hsucrack,hthc-pptp-bruter,htwofi,hwordlists,hdevice-pharmer,hstatsprocessor,hairgeddon,hbluelog,hblueranger,hbluesnarfer,hbtscanner,hbluez-hcidump,hcrackle,hfern-wifi-cracker,hhackrf,hinspectrum,hking-phisher,hmfcuk,hmfoc,hmfterm,hlibfreefare-bin,hlibnfc-bin,hpixiewps,hredfang,hrfcat,hrtlsdr-scanner,hubertooth,hwifite,hbettercap,hchaosreader,hdarkstat,hsniffjoke,htcpflow,hdriftnet,hetherape,hfiked,hhamster-sidejack,hnetsniff-ng,hrebind,hresponder,hsslsplit,htcpreplay,hwifi-honey,hafflib-tools,hdumpzilla,hcabextract,hautopsy,hbinwalk,hsleuthkit,hewf-tools,hextundelete,hgtkhash,hhashdeep,hmagicrescue,hmissidentify,hpasco,hpdf-parser,hpdfid,hpev,hrecoverjpeg,hregripper,hrifiuti,hrifiuti2,hscrounge-ntfs,hvinetto,hxplico,hinetsim,hforensic-artifacts,hgalleta,hgpp-decrypt,hguymager,hsmartmontools,hyara,hcan-utils,hparrot-meta-sdr,hgscanbus,hclang,hdex2jar,hedb-debugger,hgdb,hjavasnoop,hrizin,hrizin-cutter,heyewitness,hfaraday-cli,hfaraday,hparrot-tools,hparrot-tools-info,hparrot-tools-vuln,hparrot-tools-web,hparrot-tools-pwn,hparrot-tools-maintain,hparrot-tools-postexploit,hparrot-tools-password,hparrot-tools-wireless,hparrot-tools-sniff,hparrot-tools-forensic,hparrot-tools-automotive,hparrot-tools-reversing,hparrot-tools-report,hparrot-crypto,hvokoscreen,hngrep,hnetsed,hosslsigncode,harpwatch,hvlan,hnginx,hdnsmap,hhashcat,hmetasploit-framework,hmiredo-server,hncrack,hnikto,hophcrack-cli,hcrackmapexec,hrainbowcrack,hset,htcpdump,htruecrack,hbeef-xss [amd64 i386],hsaidar,hhexinjecthaircrack-ng,harping,hasleap,hdoona,hbully,hchntpw,hcowpatty,hcreddump7,hcrunch,hcymothoa,hdavtest,hdc3dd,hdcfldd,hddrescue,hdhcpig,hdirb,hdirbuster,hdmitry,hdns2tcp,hdnschef,hdnsenum,hdnsrecon,hdnstracer,hdnswalk,hdos2unix,hdsniff,heapmd5pass,henumiax,hethtool,hettercap-graphical,hfcrackzip,hferret,hfierce,hforemost,hfping,hhexinject,hhping3,hhtshells,hiaxflood,himpacket-scripts,hiodine,hisr-evilgrade,hjohn,hjoomscan,hlaudanum,hlibnet1-dev,hlibpcap-dev,hlinks,hlynis,hmaskprocessor,hmdk3,hmedusa,hmiredo,hmitmproxy,hnasm,hnbtscan,hnetdiscover,hnishang,hnmap,hopenssh-server,hoscanner,houtguess,hp0f,hpayloadsallthethings,hpowercat,hpowersploit,hproxychains,hproxytunnel,hptunnel,hpwnat,hreaver,hreglookup,hrig,hsafecopy,hsbd,hscalpel,hsfuzz,hshellinabox,hsiege,hsipcrack,hsipvicious,hskipfish,hsmbmap,hsmbclient,hsmtp-user-enum,hsnmpcheck,hsocat,hspiderfoot,hsqldict,hsqlmap,hssldump,hsslscan,hsslsniff,hsteghide,ht50,htcpxtract,htcpick,htlssled,htcptrace,hthc-ipv6,hthc-ssl-dos,htheharvester,hthemole,htraceroute,hwhois,hudptunnel,hunix-privesc-check,hwce,hwebacoo,hwebshells,hwebsploit,hweevely,hwhatweb,hwireshark,hetherwake,hwpscan,hxprobe,hxsser,hyersinia,hzaproxy,hzulucrypt,hftester,hsmali,hgeany,hsoundmodem,hminimodem
-Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|Forensics|Auto| ;create a tab control
+Gui,Add,Tab3,x10 y10 w300 h200 ,Hash||Users|System|Otools|Auto| ;create a tab control
 Gui,Color, c9c9c9
 Gui,+AlwaysOnTop
 ;Gui +Resize
@@ -68,7 +68,7 @@ Gui,Add,Button, x95 y165 w70 gsPower, Power
 Gui,Add,Button, x170 y40 w70 gspPolicy, Pass policy
 Gui,Add,Button, x170 y65 w70 gsPrograms, Scan Progs
 ;#######################
-Gui,Tab, Forensics
+Gui,Tab, Otools
 Gui,Add,Button, x20 y40 w70 gaForensics, Attempt Forensics
 ;#######################
 Gui,Tab,Auto
@@ -417,31 +417,58 @@ findFiles() {
 	GuiControl,,scurrP, Finding Bad Files
 	FileRemoveDir, %A_Desktop%\ScannedFiles, 1
 	FileCreateDir, %A_Desktop%\ScannedFiles
+	FileCreateDir, %A_Desktop%\ScannedFiles\Users
+	FileCreateDir, %A_Desktop%\ScannedFiles\ProgFiles
 	audio := "mp3,ac3,aac,aiff,flac,m4a,m4p,midi,mp2,m3u,ogg,vqf,wav"
 	videos := "wma,mp4,avi,mpeg4,webm"
 	images := "jpeg,jpg,bmp,png,gif,pdf"
 	txt := "txt,odp,ppt,pptx,rtf,odt,doc,docx"
+	exe := "bat,bin,cmd,com,cpl,exe,gadget,inf1,ins,inx,isu,job,jse,lnk,msc,msi,msp,mst,paf,pif,ps1,reg,regs,scr,sct,shb,shs,u3p,vb,vbe,vbs,vbscript,ws,wsf,wsh"
 	global htools ; see top of file for list
-	excludeDir = thumbnails,Appdata
+	excludeDirU = thumbnails,Appdata
+	excludeDirC = Windows,Cyberpatriot,Users
 	Gui, Submit, NoHide
 	Loop Files, C:\Users\*, FR  ; Recurse into subfolders.
 	{
-		if A_LoopFileLongPath contains %excludeDir%
+		if A_LoopFileLongPath contains %excludeDirU%
 			continue
 		else if A_LoopFileExt in %images%
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\images.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\images.txt
 		else if A_LoopFileExt in %audio%
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\audio.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\audio.txt
 		else if A_LoopFileExt in %videos%
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\videos.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\videos.txt
+		else if A_LoopFIleExt in %exe%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\exe.txt
 		else if A_LoopFIleExt in %txt%
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\text.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\text.txt
 		else if A_LoopFileName contains %htools%
 		{
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\htools.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\htools.txt
 			FileRecycle % A_LoopFileFullPath
 		}
 	}
+	Loop Files, C:\*, FR  ; Recurse into subfolders.
+	{
+		if A_LoopFileLongPath contains %excludeDirC%
+			continue
+		else if A_LoopFileExt in %images%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\images.txt
+		else if A_LoopFileExt in %audio%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\audio.txt
+		else if A_LoopFileExt in %videos%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\videos.txt
+		else if A_LoopFIleExt in %exe%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\exe.txt
+		else if A_LoopFIleExt in %txt%
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\text.txt
+		else if A_LoopFileName contains %htools%
+		{
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\htools.txt
+			FileRecycle % A_LoopFileFullPath
+		}
+	}
+	
 	GuiControl,,scurrP, Done!
 }
 
