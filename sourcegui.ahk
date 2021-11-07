@@ -2,7 +2,7 @@
 //==================================
 // AUTHOR       : Marco Todorov
 // CREATE DATE  : 10/2/2021
-// LAST MODIFIED: 11/06/2021
+// LAST MODIFIED: 11/07/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
 // VERSION      : 0.69.420
@@ -70,6 +70,8 @@ Gui,Add,Button, x170 y65 w70 gsPrograms, Scan Progs
 ;#######################
 Gui,Tab, Otools
 Gui,Add,Button, x20 y40 w70 gaForensics, Attempt Forensics
+Gui,Add,Edit, x20 y80 w20 vdelFile
+Gui,Add,Button, x40 y79 w50 gdelFileB, Del File
 ;#######################
 Gui,Tab,Auto
 Gui,Font, s30
@@ -126,6 +128,10 @@ sAll:
 	sPwr()
 	audit()
 	GuiControl,,scurrP, All Functions Executed
+return
+delFileB:
+	Gui, Submit, NoHide
+	FileRecycle %delFile%
 return
 
 Feats:
