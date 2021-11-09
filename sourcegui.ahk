@@ -72,6 +72,7 @@ Gui,Tab, Otools
 Gui,Add,Button, x20 y40 w70 gaForensics, Attempt Forensics
 Gui,Add,Edit, x20 y80 w20 vdelFile
 Gui,Add,Button, x40 y79 w50 gdelFileB, Del File
+Gui,Add,Button, x20 y110 w70 gfileOwner, File Owner
 ;#######################
 Gui,Tab,Auto
 Gui,Font, s30
@@ -132,6 +133,11 @@ return
 delFileB:
 	Gui, Submit, NoHide
 	FileRecycle %delFile%
+return
+fileOwner:
+	InputBox, File, Full File Directory, , ,300, 100
+	Owner := GetOwner( File ) ; assigns owner to var Owner
+	Msgbox % Owner
 return
 
 Feats:
@@ -445,7 +451,7 @@ findFiles() {
 		else if A_LoopFileExt in %videos%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\videos.txt
 		else if A_LoopFIleExt in %exe%
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\exe.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\executables.txt
 		else if A_LoopFIleExt in %txt%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\text.txt
 		else if A_LoopFileName contains %htools%
@@ -465,7 +471,7 @@ findFiles() {
 		else if A_LoopFileExt in %videos%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\videos.txt
 		else if A_LoopFIleExt in %exe%
-			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\exe.txt
+			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\Users\executables.txt
 		else if A_LoopFIleExt in %txt%
 			FileAppend, %A_LoopFileFullPath%`n, %A_Desktop%\ScannedFiles\ProgFiles\text.txt
 		else if A_LoopFileName contains %htools%
@@ -706,6 +712,15 @@ pPolicy() {
 	Reg()
 }
 
+GetOwner(p) {
+    colObj 	:= ComObjGet("winmgmts:").ExecQuery("Associators Of {"
+		. "Win32_LogicalFileSecuritySetting='" p "'} Where As"
+		. "socClass= Win32_LogicalFileOwner ResultRole=Owner")
+
+    For itm in colObj
+        Return itm.ReferencedDomainName "\" itm.AccountName
+}
+
 Reg() {
 	bat =
 	(join&
@@ -775,11 +790,9 @@ Reg() {
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\Control\SecurePipeServers\winreg\AllowedExactPaths, Machine, ""
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionPipes, ""
 	RegWrite, REG_MULTI_SZ, HKLM\SYSTEM\CurrentControlSet\services\LanmanServer\Parameters, NullSessionShares, ""
-	RegWrite, REG_DWORD, HKLM\SOFTWARE\Policies\Microsoft\Windows\System, EnableSmartScreen, 1 ;
-	RegWrite, REG_DWORD, HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer, NoDriveTypeAutoRun, 255 ;
-	RegWrite, REG_DWORD, HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management, ClearPageFileAtShutdown, 1 ;
 	GuiControl,,scurrP, Done!
 }
+
 audit() {
 	runwait, %comspec% /k auditpol /set /category:* /success:enable & exit
 	runwait, %comspec% /k auditpol /set /category:* /failure:enable & exit
