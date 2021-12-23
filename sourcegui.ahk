@@ -2,16 +2,14 @@
 //==================================
 // AUTHOR       : Marco Todorov
 // CREATE DATE  : 10/2/2021
-// LAST MODIFIED: 11/07/2021
+// LAST MODIFIED: 12/23/2021
 // PURPOSE      : Automate and simplify operations to secure Windows 10
 // SPECIAL NOTES: Made for Cyberpatriot 2021
-// VERSION      : 0.69.420
+// VERSION      : 1
 // ===============================
 // TODO:
-// Continue reg edit and services
-// Rename admin? rename guest? ????????
+// Endless services and reg values
 // group policy is allowing modifications to the firewall
-// so many registry keys bruh
 //==================================
 */
 
