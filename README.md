@@ -1,3 +1,3 @@
 # windowssecurity
-A tool that compiles all of the necessary actions to secure a Windows machine under the guide lines of Cyberpatriot.
-nf
+##-##A tool that compiles many functions to secure a Windows machine under the guide lines of Cyberpatriot.
+
