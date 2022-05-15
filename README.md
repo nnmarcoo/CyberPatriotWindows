@@ -27,5 +27,5 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 ***Aa*** Will give the user the Admin group in the small input box to the left of the button.
 
 
-###[System]
+### [System]
 ![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401060103520256/unknown.png)  
