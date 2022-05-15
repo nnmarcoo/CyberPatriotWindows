@@ -29,3 +29,7 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 
 ### [System]
 ![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401060103520256/unknown.png)  
+
+### [Otools]
+![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401097189544006/unknown.png)  
+
