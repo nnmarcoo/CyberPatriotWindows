@@ -6,7 +6,7 @@ A tool that compiles many functions to secure a Windows machine under the guide 
 ## Features
 
 ### [File Hash]
-![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975400984916398130/unknown.png)
+![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975400984916398130/unknown.png)  
 Gives hash SHA[1,256,384,512] or MD[2,4,5] of input file directory.
 
 
