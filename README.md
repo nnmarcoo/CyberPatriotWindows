@@ -6,7 +6,7 @@ A tool that compiles many functions to secure a Windows machine under the guide 
 ## Features
 
 ### [File Hash]
-<img align="left" alt="" src="https://imgur.com/a/HXQyyKQ" height="155" />
+![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
 Gives hash SHA[1,256,384,512] or MD[2,4,5] of input file directory.
 
 
