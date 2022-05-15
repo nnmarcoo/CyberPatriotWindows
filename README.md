@@ -11,6 +11,7 @@ Gives hash SHA[1,256,384,512] or MD[2,4,5] of input file directory.
 
 
 ### [Users]
+![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401022665142392/unknown.png)  
 ***Exec All*** Will execute everything on that tab. **DO NOT** use it,some of the functions are broken.
 
 The ***m*** checkbox will toggle manual mode. This will allow the user to input admins and users manually. **UNTESTED**
@@ -24,3 +25,7 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 ***Au*** Will give the user the User group in the small input box to the left of the button.
 
 ***Aa*** Will give the user the Admin group in the small input box to the left of the button.
+
+
+###[System]
+![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401060103520256/unknown.png)  
