@@ -33,3 +33,9 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 ### [Otools]
 ![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401097189544006/unknown.png)  
 
+***Attempt Forensics*** Will read the forensics files and answer them if it can.
+
+***Del file*** Will delete the given directory
+
+***File Owner*** Will give the file owner of the selected file.
+
