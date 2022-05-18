@@ -11,7 +11,7 @@ Gives hash SHA[1,256,384,512] or MD[2,4,5] of input file directory.
 
 
 ### [Users]
-![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401022665142392/unknown.png)  
+![This is an image](imgs/users.png)  
 ***Exec All*** Will execute everything on that tab. **DO NOT** use it,some of the functions are broken.
 
 The ***m*** checkbox will toggle manual mode. This will allow the user to input admins and users manually. **UNTESTED**
@@ -28,7 +28,7 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 
 
 ### [System]
-![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401060103520256/unknown.png)  
+![This is an image](imgs/system.png)  
 
 Note, the square buttons will revert the setting to what is considered less secure.
 
@@ -177,7 +177,7 @@ dism /online /disable-feature /featurename:IIS-WebServerRole
 ***Scan Progs*** Will scan installed programs and find the bad ones. (Untested)
 
 ### [Otools]
-![This is an image](https://cdn.discordapp.com/attachments/956008511861567541/975401097189544006/unknown.png)  
+![This is an image](imgs/otools.png)  
 
 ***Attempt Forensics*** Will read the forensics files and answer them if it can.
 
