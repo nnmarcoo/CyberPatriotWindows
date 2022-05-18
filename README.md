@@ -6,12 +6,12 @@ A tool that compiles many functions to secure a Windows machine under the guide 
 ## Features
 
 ### [File Hash]
-![This is an image](imgs/hash.png)  
+![This is an image](img/hash.png)  
 Gives hash SHA[1,256,384,512] or MD[2,4,5] of input file directory.
 
 
 ### [Users]
-![This is an image](imgs/users.png)  
+![This is an image](img/users.png)  
 ***Exec All*** Will execute everything on that tab. **DO NOT** use it,some of the functions are broken.
 
 The ***m*** checkbox will toggle manual mode. This will allow the user to input admins and users manually. **UNTESTED**
@@ -28,7 +28,7 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 
 
 ### [System]
-![This is an image](imgs/system.png)  
+![This is an image](img/system.png)  
 
 Note, the square buttons will revert the setting to what is considered less secure.
 
@@ -177,7 +177,7 @@ dism /online /disable-feature /featurename:IIS-WebServerRole
 ***Scan Progs*** Will scan installed programs and find the bad ones. (Untested)
 
 ### [Otools]
-![This is an image](imgs/otools.png)  
+![This is an image](img/otools.png)  
 
 ***Attempt Forensics*** Will read the forensics files and answer them if it can.
 
