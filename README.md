@@ -41,7 +41,7 @@ Note, the square buttons will revert the setting to what is considered less secu
 ***Clear Hosts*** Will reset the Hosts file.
 
 <details>
-<summary>***Reg*** Will set a ton of registry keys.</summary>
+	<summary><italic>Reg</italic> Will set a ton of registry keys.</summary>
 <br>
 HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System, EnableLUA, 1 
 	HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU, AutoInstallMinorUpdates, 1 
