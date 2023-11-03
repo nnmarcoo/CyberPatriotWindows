@@ -1,7 +1,7 @@
 # Windows Security Script (CyberPatriot 2021)
 A tool that compiles many functions to secure a Windows machine under the guide lines of CyberPatriot into a clean gui.
 
-**DISCLAIMER** This tool is no longer getting additions or being bug fixed as I am no longer participating in CyberPatriot.
+**DISCLAIMER** This tool is no longer maintained as I am no longer participating in CyberPatriot.
 
 ## Features
 
