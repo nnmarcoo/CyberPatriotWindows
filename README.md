@@ -18,7 +18,7 @@ The ***m*** checkbox will toggle manual mode. This will allow the user to input 
 
 ***Secure Passwords*** Will go through each user and set a unique password according to a template and their position in the user list. E.g. mABCxyz1!
 
-***Set Perms*** Will parse the readme file and apply the correct permissions. **DOES NOT WORK**
+***Set Perms*** Will parse the readme file and apply the correct permissions. It is broken, do not use it.
 
 ***Cu*** Will Create a user given in the small input box to the left of the button.
 
