@@ -74,7 +74,7 @@ Gui,Add,Button, x20 y110 w70 gfileOwner, File Owner
 ;#######################
 Gui,Tab,Auto
 Gui,Font, s30
-Gui,Add,Button, x20 y40 w280 h160 gLOLOLO, BRUH
+Gui,Add,Button, x20 y40 w280 h160 gLOLOLO, AUTO
 Gui,Font, s8
 ;#######################
 Gui,Tab, ;exit the tabs
