@@ -12,7 +12,7 @@ Gives hash SHA[1,256,384,512] or MD[2,4,5] of input file directory.
 
 ### [Users]
 ![This is an image](img/users.png)  
-***Exec All*** Will execute everything on that tab. **DO NOT** use it as some of the functions are broken.
+***Exec All*** Will execute everything on this tab. DO NOT use it.
 
 The ***m*** checkbox will toggle manual mode. This will allow the user to input admins and users manually. **UNTESTED**
 
